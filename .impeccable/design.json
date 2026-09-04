@@ -113,7 +113,7 @@
     "shadows": [
       { "name": "pressed-density-state", "value": "0 1px 2px rgb(28 38 34 / .12)", "purpose": "Seats the selected density option inside its segmented field." },
       { "name": "detail-modal-separation", "value": "0 24px 70px rgb(10 16 18 / .32)", "purpose": "Separates the active modal evidence page from the dimmed matrix." },
-      { "name": "selected-registration", "value": "inset 0 0 0 1px var(--accent)", "purpose": "Marks a selected cell without changing grid geometry." }
+      { "name": "selected-registration", "value": "none", "purpose": "Uses a neutral paper fill and ink corner without a click shadow." }
     ],
     "motion": [
       { "name": "cell-state", "value": "130ms ease-out", "purpose": "Cell hover and selected-color changes." },
@@ -167,9 +167,9 @@
       "name": "Selected Phonology Cell",
       "kind": "custom",
       "refersTo": "matrix-cell-selected",
-      "description": "The signature ruled matrix cell, shown with explicitly illustrative content and selected registration.",
+      "description": "The signature ruled matrix cell, using a neutral selected state without a tap highlight or box shadow.",
       "html": "<button class=\"ds-matrix-cell\" type=\"button\" role=\"gridcell\" aria-selected=\"true\" aria-label=\"界面示例格位 C000\"><span class=\"ds-cell-register\" aria-hidden=\"true\"></span><span class=\"ds-cell-top\"><b>例</b><code>C000</code></span><span class=\"ds-cell-reading\">[IPA]</span><small>界面示例</small></button>",
-      "css": ".ds-matrix-cell { position: relative; width: 110px; height: 76px; display: flex; flex-direction: column; justify-content: center; gap: 2px; overflow: hidden; padding: 7px 8px 6px; border: 0; border-right: 1px solid var(--rule, #d4d8d4); border-radius: 0; color: var(--accent-dark, #173f52); background: var(--accent-pale, #dce9ee); text-align: left; box-shadow: inset 0 0 0 1px var(--accent, #245a72); transition: background 130ms ease-out, color 130ms ease-out; } .ds-cell-register { position: absolute; top: 4px; left: 4px; width: 7px; height: 7px; border-top: 1px solid var(--accent, #245a72); border-left: 1px solid var(--accent, #245a72); } .ds-cell-top { display: flex; align-items: baseline; justify-content: space-between; gap: 4px; } .ds-cell-top b { font: 650 18px/1 \"Noto Serif CJK SC\", \"Source Han Serif SC\", serif; } .ds-cell-top code { color: var(--ink-3, #6d7578); font: 400 8px ui-monospace, monospace; } .ds-cell-reading { overflow: hidden; font: 400 12px \"Charis SIL\", \"Doulos SIL\", sans-serif; white-space: nowrap; } .ds-matrix-cell small { color: var(--ink-3, #6d7578); font-size: 9px; } .ds-matrix-cell:hover { background: var(--accent-wash, #eef5f7); } .ds-matrix-cell:active { transform: translateY(1px); } .ds-matrix-cell:focus-visible { outline: 2px solid var(--focus, #1f6f93); outline-offset: -3px; }"
+      "css": ".ds-matrix-cell { position: relative; width: 110px; height: 76px; display: flex; flex-direction: column; justify-content: center; gap: 2px; overflow: hidden; padding: 7px 8px 6px; border: 0; border-right: 1px solid var(--rule, #d4d8d4); border-radius: 0; color: var(--ink, #171b1d); background: #edf0ee; text-align: left; box-shadow: none; -webkit-tap-highlight-color: transparent; transition: background 130ms ease-out, color 130ms ease-out; } .ds-cell-register { position: absolute; top: 4px; left: 4px; width: 7px; height: 7px; border-top: 1px solid var(--ink-2, #42494d); border-left: 1px solid var(--ink-2, #42494d); } .ds-cell-top { display: flex; align-items: baseline; justify-content: space-between; gap: 4px; } .ds-cell-top b { font: 650 18px/1 \"Noto Serif CJK SC\", \"Source Han Serif SC\", serif; } .ds-cell-top code { color: var(--ink-3, #6d7578); font: 400 8px ui-monospace, monospace; } .ds-cell-reading { overflow: hidden; font: 400 12px \"Charis SIL\", \"Doulos SIL\", sans-serif; white-space: nowrap; } .ds-matrix-cell small { color: var(--ink-3, #6d7578); font-size: 9px; } @media (hover: hover) { .ds-matrix-cell:hover { background: var(--accent-wash, #eef5f7); } } .ds-matrix-cell:focus-visible { outline: 2px solid var(--ink-2, #42494d); outline-offset: -3px; }"
     },
     {
       "name": "Evidence Tabs",
@@ -205,13 +205,13 @@
     "overview": "The shipped interface behaves like a working table in a phonology archive: cool paper fields, ink-black evidence, mineral-blue registration marks, and ruled coordinates. It is intentionally dense and rectilinear. The full-width matrix is the primary object; header, layer rail, custom filter controls, and the separate detail modal exist to orient or inspect it rather than compete with it.\n\nIts visual thesis is stable coordinates with replaceable registration layers. Changing dialect or Sino-Japanese readings changes the cell contents and active layer state without changing the Middle Chinese X/Y skeleton. Selection opens a wide modal evidence page on desktop and an edge-to-edge modal page on narrow screens without permanently reducing matrix width.",
     "keyCharacteristics": [
       "Cool archival paper rather than warm lifestyle neutrals.",
-      "Ink-first data with mineral blue reserved for active, selected, aligned, and focused states.",
+      "Ink-first data with mineral blue reserved for active layers, aligned records, and plotted relationships; selected cells stay neutral.",
       "Hairline rules, square data cells, and restrained control radii instead of detached dashboard cards.",
       "A compact bilingual hierarchy built for repeated scholarly scanning.",
       "Persistent provenance language that labels all shipped demo content as illustrative and unreviewed."
     ],
     "rules": [
-      { "name": "The Blue-Is-State Rule", "body": "Mineral blue marks a current layer, selected slot, aligned record, focus target, or plotted relationship; it is not ambient decoration.", "section": "colors" },
+      { "name": "The Blue-Is-State Rule", "body": "Mineral blue marks a current layer, aligned record, control focus, or plotted relationship; selected matrix cells use neutral paper and ink.", "section": "colors" },
       { "name": "The Honest-Provenance Rule", "body": "Illustrative phonology values remain visibly labeled as interface examples and unreviewed data in both the global strip and evidence footer.", "section": "colors" },
       { "name": "The Three-Script Rule", "body": "Use sans for interface language, serif for CJK evidence characters, and the IPA/mono stacks only for phonetic or indexed data; do not collapse all three into one generic face.", "section": "typography" },
       { "name": "The Coordinate-Persistence Rule", "body": "Responsive layouts may compress chrome and relocate details, but they never reorder, summarize away, or replace the full X/Y matrix.", "section": "layout" },

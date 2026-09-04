@@ -92,8 +92,8 @@ components:
     padding: "7px 8px 6px"
     height: "76px"
   matrix-cell-selected:
-    backgroundColor: "{colors.mineral-blue-pale}"
-    textColor: "{colors.mineral-blue-deep}"
+    backgroundColor: "#edf0ee"
+    textColor: "{colors.ink}"
     rounded: "{rounded.square}"
     padding: "7px 8px 6px"
     height: "76px"
@@ -121,9 +121,9 @@ Its visual thesis is stable coordinates with replaceable registration layers. Ch
 The palette is a cool paper-and-ink system with one mineral-blue state family; the frontmatter values are the normative source.
 
 ### Primary
-- **Mineral Blue** (`mineral-blue`): filled active layer buttons, representative-character selection, tone plots, connectors, and decisive borders.
+- **Mineral Blue** (`mineral-blue`): filled active layer buttons, tone plots, connectors, and decisive modal or control states.
 - **Deep Mineral Blue** (`mineral-blue-deep`): active text, IPA emphasis, slot IDs, and dark provenance/context fields.
-- **Pale Mineral Blue** (`mineral-blue-pale`): selected-cell fills and small alternate-reading badges.
+- **Pale Mineral Blue** (`mineral-blue-pale`): small alternate-reading badges and quiet supporting states.
 - **Mineral Wash** (`mineral-blue-wash`): hover and current-node surfaces where a filled accent would be too loud.
 
 ### Neutral
@@ -172,7 +172,7 @@ The palette is a cool paper-and-ink system with one mineral-blue state family; t
 
 The desktop shell fills `100dvh`, hides document overflow, and stacks five fixed bands above the research plane: 24px provenance, 68px header, 98px layer workbench, 54px toolbar, then the remaining full-width matrix. Slot details are removed from the matrix flow and open in a centered modal up to 1120px wide and 760px high.
 
-The matrix itself is deliberately wider than the viewport. Five sticky Y-coordinate columns use 64px, 58px, 44px, 44px, and 44px widths so one complete 110px initial column remains visible on narrow screens; each Middle Chinese initial column is 110px. The 34px superheader and 60px initial header remain sticky while the full plane scrolls in both directions. Rows are virtualized and switch between 76px comfortable and 58px compact density without changing coordinates. When selection changes, the matrix reveals both the selected row and selected initial column. Horizontal reveal is immediate and deterministic; reduced-motion preference still collapses other transitions.
+The matrix itself is deliberately wider than the viewport. On desktop, five sticky Y-coordinate columns use 64px, 58px, 44px, 44px, and 44px widths for a 254px frozen region; each Middle Chinese initial column is 110px. At 680px and below, the frozen coordinates contract to 44px, 40px, 30px, 30px, and 34px for a 178px region, leaving 212px of a 390px viewport for reflex data. CSS custom properties keep grid tracks, sticky offsets, and selected-column reveal in lockstep. The 34px superheader and 60px initial header remain sticky while the full plane scrolls in both directions. Rows switch between 76px comfortable and 58px compact density without changing coordinates.
 
 At 900px and below, the matrix still takes the full research width while the detail modal keeps 16px viewport gutters. At 680px and below, the shell bands compress to 21px, 104px, 84px, and 50px; the header becomes two rows, the search spans the full second row, action labels and nonessential legends hide, and details become an edge-to-edge `100dvh` modal page. The matrix dimensions and horizontal scrolling are retained rather than converted to cards or stripped of axes.
 
@@ -180,12 +180,11 @@ At 900px and below, the matrix still takes the full research width while the det
 
 ## Elevation & Depth
 
-The system is flat by default. Tonal paper changes and one-pixel rules establish hierarchy; selection uses an inset mineral-blue registration line. The compact-density selected button alone uses a low structural shadow (`0 1px 2px rgb(28 38 34 / .12)`), while the desktop detail modal uses a directional separation shadow (`0 24px 70px rgb(10 16 18 / .32)`). No at-rest data regions float.
+The system is flat by default. Tonal paper changes and one-pixel rules establish hierarchy; selection uses a neutral paper shift and ink registration corner with no shadow. The compact-density selected button alone uses a low structural shadow (`0 1px 2px rgb(28 38 34 / .12)`), while the desktop detail modal uses a directional separation shadow (`0 24px 70px rgb(10 16 18 / .32)`). No at-rest data regions float.
 
 ### Shadow Vocabulary
 - **Pressed Density State** (`0 1px 2px rgb(28 38 34 / .12)`): gives the selected compact/comfortable icon a slight mechanical seat.
 - **Detail Modal Separation** (`0 24px 70px rgb(10 16 18 / .32)`): separates the focused evidence page from the dimmed matrix without turning normal data regions into cards.
-- **Selected Registration** (`inset 0 0 0 1px var(--accent)`): aligns selection without changing grid dimensions.
 
 **The Evidence-Lift Rule.** Shadow is reserved for the active detail modal or a tiny pressed control state; ordinary data regions stay ruled and flat.
 
@@ -222,7 +221,7 @@ Borders are structural rather than ornamental: regular rules divide cells, stron
 ### Matrix and Phonology Cells
 - The matrix uses semantic grid, row, rowheader, columnheader, and gridcell roles with explicit row/column counts. Sticky nested row coordinates and column initials preserve orientation during scrolling.
 - A comfortable cell is 76px high with 7px 8px 6px padding; compact mode is 58px high with 5px 7px padding. Each cell aligns a serif representative character, mono slot ID, reading/IPA line, and compact metadata.
-- Hover uses mineral wash; selection combines pale mineral fill, deep text, an inset registration line, and `aria-selected`. Empty reflex cells say “未收” in dedicated missing-state ink; impossible coordinates use a ruled void with a dash. Alternate readings get a small count badge.
+- Hover-capable pointers use mineral wash; touch does not retain hover color. Selection uses a neutral paper fill, ink registration corner, `aria-selected`, no box shadow, and transparent browser tap highlight. Empty reflex cells say “未收” in dedicated missing-state ink; impossible coordinates use a ruled void with a dash. Alternate readings get a small count badge.
 - Loading replaces cell content with three stepped-pulse registration bars. The matrix has explicit, centered empty and error states; the error action is the only filled retry button.
 
 ### Detail Modal and Tabs

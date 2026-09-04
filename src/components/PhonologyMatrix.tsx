@@ -14,11 +14,11 @@ interface PhonologyMatrixProps {
   onSelect: (slotId: string) => void
 }
 
-const LEFT_COLUMN_WIDTHS = [64, 58, 44, 44, 44]
-const LEADING_WIDTH = LEFT_COLUMN_WIDTHS.reduce((sum, width) => sum + width, 0)
+const DEFAULT_LEADING_WIDTH = 254
 const INITIAL_WIDTH = 110
-const GRID_WIDTH = LEADING_WIDTH + initials.length * INITIAL_WIDTH
-const GRID_TEMPLATE = `${LEFT_COLUMN_WIDTHS.map((width) => `${width}px`).join(' ')} repeat(${initials.length}, ${INITIAL_WIDTH}px)`
+const DATA_WIDTH = initials.length * INITIAL_WIDTH
+const GRID_WIDTH = `calc(var(--leading-width) + ${DATA_WIDTH}px)`
+const GRID_TEMPLATE = `var(--col-she) var(--col-rhyme) var(--col-grade) var(--col-open) var(--col-tone) repeat(${initials.length}, ${INITIAL_WIDTH}px)`
 const slotsByCoordinate: Record<string, PhonologySlot> = Object.fromEntries(
   slots.map((slot) => [`${slot.rowId}:${slot.initialId}`, slot]),
 )
@@ -51,13 +51,15 @@ export function PhonologyMatrix({ rows: visibleRows, layer, payload, selectedSlo
   useLayoutEffect(() => {
     const scroller = scrollerRef.current
     if (!scroller || selectedPosition.initialIndex < 0) return
-    const cellLeft = LEADING_WIDTH + selectedPosition.initialIndex * INITIAL_WIDTH
+    const configuredLeadingWidth = Number.parseFloat(getComputedStyle(scroller).getPropertyValue('--leading-width'))
+    const leadingWidth = Number.isFinite(configuredLeadingWidth) ? configuredLeadingWidth : DEFAULT_LEADING_WIDTH
+    const cellLeft = leadingWidth + selectedPosition.initialIndex * INITIAL_WIDTH
     const cellRight = cellLeft + INITIAL_WIDTH
-    const visibleLeft = scroller.scrollLeft + LEADING_WIDTH
+    const visibleLeft = scroller.scrollLeft + leadingWidth
     const visibleRight = scroller.scrollLeft + scroller.clientWidth
 
     if (cellLeft < visibleLeft) {
-      scroller.scrollLeft = Math.max(0, cellLeft - LEADING_WIDTH)
+      scroller.scrollLeft = Math.max(0, cellLeft - leadingWidth)
     } else if (cellRight > visibleRight) {
       scroller.scrollLeft = cellRight - scroller.clientWidth
     }
@@ -84,7 +86,7 @@ export function PhonologyMatrix({ rows: visibleRows, layer, payload, selectedSlo
       aria-colcount={initials.length + 5}
     >
       <div className="matrix-stage" style={{ width: GRID_WIDTH, height: rowVirtualizer.getTotalSize() + 94 }}>
-        <div className="matrix-superheader" style={{ gridTemplateColumns: `${LEADING_WIDTH}px ${initials.length * INITIAL_WIDTH}px` }}>
+        <div className="matrix-superheader" style={{ gridTemplateColumns: `var(--leading-width) ${DATA_WIDTH}px` }}>
           <div className="axis-corner">韵类条件</div>
           <div className="axis-title">
             <span>中古声母</span>
