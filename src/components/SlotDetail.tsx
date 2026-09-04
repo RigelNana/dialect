@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import type { KeyboardEvent as ReactKeyboardEvent } from 'react'
 import { useQueries } from '@tanstack/react-query'
 import {
@@ -47,18 +47,12 @@ export function SlotDetail({ slot, activeLayer, activePayload, open }: SlotDetai
     })),
   })
 
-  useEffect(() => {
-    const mobileSheet = window.matchMedia('(max-width: 900px)').matches
-    if (!mobileSheet) {
-      wasOpenRef.current = open
-      return
-    }
-
+  useLayoutEffect(() => {
     if (open) {
       previousFocusRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null
       wasOpenRef.current = true
-      const frame = window.requestAnimationFrame(() => closeButtonRef.current?.focus())
-      return () => window.cancelAnimationFrame(frame)
+      closeButtonRef.current?.focus()
+      return
     }
 
     if (wasOpenRef.current) {
@@ -70,7 +64,7 @@ export function SlotDetail({ slot, activeLayer, activePayload, open }: SlotDetai
   }, [open])
 
   const handleSheetKeyDown = (event: ReactKeyboardEvent<HTMLElement>) => {
-    if (!open || !window.matchMedia('(max-width: 900px)').matches) return
+    if (!open) return
     if (event.key === 'Escape') {
       event.preventDefault()
       closeDetail()
@@ -97,12 +91,22 @@ export function SlotDetail({ slot, activeLayer, activePayload, open }: SlotDetai
   }
 
   return (
-    <aside
-      ref={sheetRef}
-      className={`slot-detail${open ? ' is-open' : ''}`}
-      aria-label={`${slot.id} 格位详情`}
-      onKeyDown={handleSheetKeyDown}
+    <div
+      className={`detail-modal${open ? ' is-open' : ''}`}
+      aria-hidden={!open}
+      onMouseDown={(event) => {
+        if (event.target instanceof HTMLElement && event.target.classList.contains('detail-modal-backdrop')) closeDetail()
+      }}
     >
+      <div className="detail-modal-backdrop" aria-hidden="true" />
+      <aside
+        ref={sheetRef}
+        className="slot-detail"
+        role="dialog"
+        aria-modal="true"
+        aria-label={`${slot.id} 格位详情`}
+        onKeyDown={handleSheetKeyDown}
+      >
       <header className="detail-header">
         <div className="detail-id-block">
           <span className="detail-id">{slot.id}</span>
@@ -135,7 +139,7 @@ export function SlotDetail({ slot, activeLayer, activePayload, open }: SlotDetai
 
       <div className="detail-scroll">
         {detailTab === 'position' && (
-          <>
+          <div className="detail-layout detail-layout-position">
             <section className="detail-section">
               <div className="section-heading">
                 <BracketsCurly size={17} />
@@ -183,7 +187,7 @@ export function SlotDetail({ slot, activeLayer, activePayload, open }: SlotDetai
               </div>
               <p className="detail-note">{slot.note}</p>
             </section>
-          </>
+          </div>
         )}
 
         {detailTab === 'reflexes' && (
@@ -311,6 +315,7 @@ export function SlotDetail({ slot, activeLayer, activePayload, open }: SlotDetai
         <span>资料状态</span>
         <strong>界面示例 · 未经校勘</strong>
       </footer>
-    </aside>
+      </aside>
+    </div>
   )
 }

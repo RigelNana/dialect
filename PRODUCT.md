@@ -26,7 +26,7 @@ One stable slot matrix connects Middle Chinese structure, modern dialect reflexe
 
 ## Operating Context
 
-The main screen is a dense matrix. X is Middle Chinese initial. Y is 攝 / 韻 / 等 / 呼 / 調, displayed as separate nested fields. The active Z layer is selected from Middle Chinese, dialect, reading-register, and Sino-Japanese layers. Researchers search characters, filter category dimensions, compare layers, and inspect a selected slot in a side detail surface without losing the matrix context.
+The main screen is a dense, full-width matrix. X is Middle Chinese initial. Y is 攝 / 韻 / 等 / 呼 / 調, displayed as separate nested fields. The active Z layer is selected from Middle Chinese, dialect, reading-register, and Sino-Japanese layers. Researchers search characters, filter category dimensions, compare layers, and inspect a selected slot in a separate modal detail page without permanently reducing the matrix workspace.
 
 ## Capabilities and Constraints
 

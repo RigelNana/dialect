@@ -78,13 +78,13 @@ components:
     rounded: "{rounded.control}"
     padding: "0 10px"
     height: "38px"
-  select-filter:
+  filter-trigger:
     backgroundColor: "{colors.paper}"
     textColor: "{colors.ink-secondary}"
     typography: "{typography.body}"
     rounded: "{rounded.compact}"
-    padding: "0 28px 0 9px"
-    height: "30px"
+    padding: "0 9px 0 10px"
+    height: "32px"
   matrix-cell:
     backgroundColor: "{colors.paper-raised}"
     textColor: "{colors.ink}"
@@ -105,9 +105,9 @@ components:
 
 **Creative North Star: "The Archival Registration Table"**
 
-The shipped interface behaves like a working table in a phonology archive: cool paper fields, ink-black evidence, mineral-blue registration marks, and ruled coordinates. It is intentionally dense and rectilinear. The matrix is the primary object; header, layer rail, controls, and the attached detail leaf exist to orient or inspect it rather than compete with it.
+The shipped interface behaves like a working table in a phonology archive: cool paper fields, ink-black evidence, mineral-blue registration marks, and ruled coordinates. It is intentionally dense and rectilinear. The full-width matrix is the primary object; header, layer rail, custom filter controls, and the separate detail modal exist to orient or inspect it rather than compete with it.
 
-Its visual thesis is stable coordinates with replaceable registration layers. Changing dialect or Sino-Japanese readings changes the cell contents and active layer state without changing the Middle Chinese X/Y skeleton. Desktop keeps the matrix and evidence leaf in one working plane; narrow screens retain the full scrollable matrix and move that same evidence leaf into an edge-to-edge bottom sheet.
+Its visual thesis is stable coordinates with replaceable registration layers. Changing dialect or Sino-Japanese readings changes the cell contents and active layer state without changing the Middle Chinese X/Y skeleton. The matrix retains the entire working width, while selection opens a wide modal evidence page on desktop and an edge-to-edge modal page on narrow screens.
 
 **Key Characteristics:**
 - Cool archival paper rather than warm lifestyle neutrals.
@@ -162,7 +162,7 @@ The palette is a cool paper-and-ink system with one mineral-blue state family; t
 - **Headline** (720, 16px, -0.01em): the product title. On narrow screens it drops to 14px rather than wrapping.
 - **Title** (700, 12px): section headings and emphasized panel labels.
 - **Body** (400, 12px): controls and primary cell readings; matrix metadata descends to 8–10px to preserve scan density.
-- **Data Character** (650, 18px, 1 line-height): the lexical anchor inside a cell; the evidence-leaf character expands to 29px.
+- **Data Character** (650, 18px, 1 line-height): the lexical anchor inside a cell; the detail-modal character expands to 29px.
 - **Label** (400, 8–10px, selective 0.05–0.08em tracking): coordinate captions, layer groups, state labels, and provenance metadata.
 - **Mono** (400, 8–11px): slot IDs, schema text, and the X/Y/Z position readout. Numeric and IPA displays use tabular figures where implemented.
 
@@ -170,30 +170,30 @@ The palette is a cool paper-and-ink system with one mineral-blue state family; t
 
 ## Layout
 
-The desktop shell fills `100dvh`, hides document overflow, and stacks five fixed bands above the research plane: 24px provenance, 68px header, 98px layer workbench, 54px toolbar, then the remaining matrix/detail region. The main research surface is a two-column grid with a flexible matrix and a 382px attached evidence leaf; at 1180px the leaf narrows to 332px and secondary header labels are reduced.
+The desktop shell fills `100dvh`, hides document overflow, and stacks five fixed bands above the research plane: 24px provenance, 68px header, 98px layer workbench, 54px toolbar, then the remaining full-width matrix. Slot details are removed from the matrix flow and open in a centered modal up to 1120px wide and 760px high.
 
 The matrix itself is deliberately wider than the viewport. Five sticky Y-coordinate columns use 64px, 58px, 44px, 44px, and 44px widths so one complete 110px initial column remains visible on narrow screens; each Middle Chinese initial column is 110px. The 34px superheader and 60px initial header remain sticky while the full plane scrolls in both directions. Rows are virtualized and switch between 76px comfortable and 58px compact density without changing coordinates. When selection changes, the matrix reveals both the selected row and selected initial column. Horizontal reveal is immediate and deterministic; reduced-motion preference still collapses other transitions.
 
-At 900px and below, the matrix takes the full research width and the evidence leaf becomes a fixed bottom sheet up to 82dvh / 720px. At 680px and below, the shell bands compress to 21px, 104px, 84px, and 50px; the header becomes two rows, the search spans the full second row, action labels and nonessential legends hide, and the bottom sheet grows to 88dvh. The matrix dimensions and horizontal scrolling are retained rather than converted to cards or stripped of axes.
+At 900px and below, the matrix still takes the full research width while the detail modal keeps 16px viewport gutters. At 680px and below, the shell bands compress to 21px, 104px, 84px, and 50px; the header becomes two rows, the search spans the full second row, action labels and nonessential legends hide, and details become an edge-to-edge `100dvh` modal page. The matrix dimensions and horizontal scrolling are retained rather than converted to cards or stripped of axes.
 
 **The Coordinate-Persistence Rule.** Responsive layouts may compress chrome and relocate details, but they never reorder, summarize away, or replace the full X/Y matrix.
 
 ## Elevation & Depth
 
-The system is flat by default. Tonal paper changes and one-pixel rules establish hierarchy; selection uses an inset mineral-blue registration line. The compact-density selected button alone uses a low structural shadow (`0 1px 2px rgb(28 38 34 / .12)`), while the mobile evidence sheet uses an upward separation shadow (`0 -14px 42px rgb(31 45 40 / .18)`). No other at-rest cards float.
+The system is flat by default. Tonal paper changes and one-pixel rules establish hierarchy; selection uses an inset mineral-blue registration line. The compact-density selected button alone uses a low structural shadow (`0 1px 2px rgb(28 38 34 / .12)`), while the desktop detail modal uses a directional separation shadow (`0 24px 70px rgb(10 16 18 / .32)`). No at-rest data regions float.
 
 ### Shadow Vocabulary
 - **Pressed Density State** (`0 1px 2px rgb(28 38 34 / .12)`): gives the selected compact/comfortable icon a slight mechanical seat.
-- **Evidence Sheet Separation** (`0 -14px 42px rgb(31 45 40 / .18)`): distinguishes the open mobile sheet from the matrix beneath it.
+- **Detail Modal Separation** (`0 24px 70px rgb(10 16 18 / .32)`): separates the focused evidence page from the dimmed matrix without turning normal data regions into cards.
 - **Selected Registration** (`inset 0 0 0 1px var(--accent)`): aligns selection without changing grid dimensions.
 
-**The Evidence-Lift Rule.** Shadow is reserved for the overlaid mobile evidence sheet or a tiny pressed control state; ordinary data regions stay ruled and flat.
+**The Evidence-Lift Rule.** Shadow is reserved for the active detail modal or a tiny pressed control state; ordinary data regions stay ruled and flat.
 
-Motion is short and functional: cells transition in 130ms, layer states in 140ms, controls in 160ms, and the mobile evidence sheet in 190ms with a restrained cubic-bezier curve. Loading cells pulse in stepped 900ms intervals. Reduced-motion preference collapses animation and transition duration to 0.01ms and disables smooth scrolling.
+Motion is short and functional: cells transition in 130ms, layer states in 140ms, custom filter popovers in 120ms, controls in 160ms, and the detail surface uses a restrained 180ms state transition where display permits. Loading cells pulse in stepped 900ms intervals. Reduced-motion preference collapses animation and transition duration to 0.01ms and disables smooth scrolling.
 
 ## Shapes
 
-The form language is rectilinear. Matrix cells, coordinate bands, the evidence leaf, segment strips, tab rows, and character tables use square corners. Standard controls use the small control radius (4px); layer buttons and filter selects use 3px; segmented density states use 2px. The only circle is the 6px aligned-status dot. Tone contours use square line caps and mitered joins, reinforcing the measured, plotted character.
+The form language is rectilinear. Matrix cells, coordinate bands, the modal evidence page, segment strips, tab rows, and character tables use square corners. Standard controls use the small control radius (4px); layer buttons, filter triggers, and filter options use 2–3px; segmented density states use 2px. The only circle is the 6px aligned-status dot. Tone contours use square line caps and mitered joins, reinforcing the measured, plotted character.
 
 Borders are structural rather than ornamental: regular rules divide cells, strong rules divide bands, and selected content adds a mineral-blue outline or bottom registration line. There are no pills, oversized rounded cards, or decorative clipping masks.
 
@@ -216,7 +216,7 @@ Borders are structural rather than ornamental: regular rules divide cells, stron
 - Layer changes alter the Z registration only; the matrix coordinates and scroll surface remain visually stable.
 
 ### Filters and Density Control
-- Native selects sit in 30px paper fields with compact corners and a positioned chevron. The clear action is a text link, underlined only on hover, and visibly muted when disabled.
+- Custom listbox triggers use 32px ruled paper controls with compact corners and a rotating chevron. Their authored popovers expose `listbox` / `option` semantics, selected checks, outside-click dismissal, Escape dismissal, and Arrow/Home/End keyboard navigation. No native `<select>` is used. The clear action is underlined only on hover and visibly muted when disabled.
 - The density control is a two-icon segmented field. Its active state combines darker color, raised paper, and the only small control shadow; both options expose text alternatives and `aria-pressed`.
 
 ### Matrix and Phonology Cells
@@ -225,22 +225,22 @@ Borders are structural rather than ornamental: regular rules divide cells, stron
 - Hover uses mineral wash; selection combines pale mineral fill, deep text, an inset registration line, and `aria-selected`. Empty reflex cells say “未收” in dedicated missing-state ink; impossible coordinates use a ruled void with a dash. Alternate readings get a small count badge.
 - Loading replaces cell content with three stepped-pulse registration bars. The matrix has explicit, centered empty and error states; the error action is the only filled retry button.
 
-### Evidence Leaf and Tabs
-- Desktop attaches the evidence leaf at the right edge; mobile reuses it as an edge-to-edge bottom sheet with a visible close button. While closed on mobile, the sheet is hidden and noninteractive rather than merely translated off-screen.
-- Opening the mobile sheet moves focus to Close; Tab and Shift+Tab cycle within it, Escape closes it, and focus returns to the invoking control. The sheet's internal evidence column scrolls independently.
+### Detail Modal and Tabs
+- Selecting a slot opens a separate modal evidence page, so the matrix never gives up permanent width. Desktop centers a 1120px research surface over a plain dimmed backdrop; small screens use an edge-to-edge full-viewport modal.
+- Opening the modal moves focus to Close; Tab and Shift+Tab cycle within it, Escape closes it, and focus returns to the invoking cell or control. Closed modal content uses `display: none` and cannot receive pointer or keyboard interaction.
 - The header aligns slot ID/status, a 52px square representative-character tile, enlarged IPA, and category summary. Three equal tabs share rules; active state uses darker type plus a 2px mineral registration line, not a filled pill.
-- Detail content is organized as ruled definition grids, four-part segment strips, reflex tables, and a linear development chain. Comparison rows render every reflex rather than silently selecting the first: reading layer, IPA, kana/romaji or tone category/value, and sandhi condition remain visible. The development view adds a ruled multi-reading register when the active layer has alternatives.
-- The leaf always ends with a visible provenance footer stating that the interface data is illustrative and unreviewed.
+- The position tab uses a two-column evidence layout on wide screens and a linear layout below 900px. Detail content remains organized as ruled definition grids, four-part segment strips, reflex tables, and a linear development chain. Comparison rows render every reflex rather than silently selecting the first: reading layer, IPA, kana/romaji or tone category/value, and sandhi condition remain visible.
+- The modal always ends with a visible provenance footer stating that the interface data is illustrative and unreviewed.
 
 ### Tone Contour
 - The full plot is 116px by 70px; its compact in-cell form renders at 32px by 19px from a 44px by 26px view box.
 - Mineral-blue polylines and outlined points sit on pale horizontal guides. The SVG receives an accessible five-degree-value label; missing data renders the text “调值待补”.
 
 ### Accessibility Behavior
-- Buttons, selects, and inputs share a visible 2px keyboard outline; grid cells move the outline inward so it remains legible within the ruled plane.
+- Buttons, custom listbox controls, and inputs share a visible 2px keyboard outline; grid cells move the outline inward so it remains legible within the ruled plane.
 - Selection, active tabs, and missing data use shape, text, fill, border, or explicit wording in addition to color. Search and icon-only controls have accessible names; decorative icons are hidden where implemented.
 - The matrix and comparison table expose semantic roles, live search summaries use `aria-live`, errors use `role="alert"`, and reduced-motion preference is honored globally.
-- Mobile sheet focus is contained while open and restored on close; hidden sheet controls cannot receive pointer or keyboard interaction.
+- Modal focus is contained while open and restored on close; hidden modal controls cannot receive pointer or keyboard interaction.
 
 ## Do's and Don'ts
 
@@ -256,6 +256,6 @@ Borders are structural rather than ornamental: regular rules divide cells, stron
 - **Don't** turn the workbench into a dashboard of detached rounded cards, metric tiles, or decorative charts.
 - **Don't** use gradients, glass blur, glow borders, pill controls, or large soft shadows; they contradict the shipped archival material.
 - **Don't** use mineral blue as a broad decorative background or introduce a second competing accent family.
-- **Don't** collapse the mobile matrix into cards or hide phonological dimensions; keep the full scrollable coordinate plane and move details to the sheet.
+- **Don't** collapse the mobile matrix into cards or hide phonological dimensions; keep the full scrollable coordinate plane and open details in the separate modal page.
 - **Don't** present illustrative values as cited scholarship, discard alternate reflex rows, or remove the persistent provenance warnings.
 - **Don't** enlarge every label to consumer-app proportions; preserve the compact hierarchy while maintaining focus, contrast, and zoom legibility.

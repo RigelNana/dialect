@@ -112,21 +112,21 @@
     },
     "shadows": [
       { "name": "pressed-density-state", "value": "0 1px 2px rgb(28 38 34 / .12)", "purpose": "Seats the selected density option inside its segmented field." },
-      { "name": "evidence-sheet-separation", "value": "0 -14px 42px rgb(31 45 40 / .18)", "purpose": "Separates the open mobile evidence sheet from the matrix below." },
+      { "name": "detail-modal-separation", "value": "0 24px 70px rgb(10 16 18 / .32)", "purpose": "Separates the active modal evidence page from the dimmed matrix." },
       { "name": "selected-registration", "value": "inset 0 0 0 1px var(--accent)", "purpose": "Marks a selected cell without changing grid geometry." }
     ],
     "motion": [
       { "name": "cell-state", "value": "130ms ease-out", "purpose": "Cell hover and selected-color changes." },
       { "name": "layer-state", "value": "140ms ease-out", "purpose": "Layer button background, text, and border changes." },
       { "name": "control-state", "value": "160ms ease-out", "purpose": "Search and standard control focus changes." },
-      { "name": "evidence-sheet", "value": "190ms cubic-bezier(.2, .8, .2, 1)", "purpose": "Mobile evidence-sheet entrance and exit." },
+      { "name": "filter-popover", "value": "120ms ease-out", "purpose": "Reveals authored listbox options without delaying selection." },
       { "name": "registration-pulse", "value": "900ms steps(2, end) infinite", "purpose": "Deliberately mechanical loading-cell pulse." },
-      { "name": "selected-column-reveal", "value": "smooth; auto under reduced motion", "purpose": "Brings the selected initial column into the visible matrix viewport." },
+      { "name": "selected-column-reveal", "value": "immediate", "purpose": "Brings the selected initial column into the visible matrix viewport deterministically." },
       { "name": "reduced-motion", "value": "0.01ms, one iteration", "purpose": "Collapses animation and transition while preserving state changes." }
     ],
     "breakpoints": [
       { "name": "narrow-desktop", "value": "1180px" },
-      { "name": "mobile-sheet", "value": "900px" },
+      { "name": "stacked-detail-layout", "value": "900px" },
       { "name": "compact-mobile", "value": "680px" }
     ]
   },
@@ -156,12 +156,12 @@
       "css": ".ds-layer-button { min-width: 48px; height: 31px; padding: 0 9px; border: 1px solid var(--accent, #245a72); border-radius: 3px; color: var(--paper-raised, #ffffff); background: var(--accent, #245a72); font: 400 12px \"Noto Sans CJK SC\", \"Source Han Sans SC\", sans-serif; transition: background 140ms ease-out, color 140ms ease-out, border-color 140ms ease-out; } .ds-layer-button:hover { background: var(--accent-dark, #173f52); } .ds-layer-button:active { transform: translateY(1px); } .ds-layer-button:focus-visible { outline: 2px solid var(--focus, #1f6f93); outline-offset: 2px; }"
     },
     {
-      "name": "Filter Select",
+      "name": "Filter Listbox",
       "kind": "input",
-      "refersTo": "select-filter",
-      "description": "A native compact category filter that keeps the workbench dense and keyboard-operable.",
-      "html": "<label class=\"ds-filter\"><span>调类</span><span class=\"ds-filter-field\"><select aria-label=\"调类\"><option>全部</option><option>平</option><option>上</option><option>去</option><option>入</option></select><svg viewBox=\"0 0 16 16\" width=\"13\" height=\"13\" aria-hidden=\"true\"><path d=\"m3 6 5 5 5-5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/></svg></span></label>",
-      "css": ".ds-filter { display: inline-flex; align-items: center; gap: 6px; color: var(--ink-3, #6d7578); font: 400 11px \"Noto Sans CJK SC\", \"Source Han Sans SC\", sans-serif; } .ds-filter-field { position: relative; } .ds-filter select { height: 30px; min-width: 76px; padding: 0 28px 0 9px; appearance: none; border: 1px solid var(--rule, #d4d8d4); border-radius: 3px; color: var(--ink-2, #42494d); background: var(--paper, #f6f7f4); font-size: 12px; } .ds-filter svg { position: absolute; top: 9px; right: 8px; pointer-events: none; } .ds-filter select:hover { border-color: var(--rule-strong, #b9c0bc); } .ds-filter select:focus-visible { outline: 2px solid var(--focus, #1f6f93); outline-offset: 2px; }"
+      "refersTo": "filter-trigger",
+      "description": "A custom compact category filter with authored listbox semantics and full keyboard operation.",
+      "html": "<div class=\"ds-filter\"><span>调类</span><button type=\"button\" aria-haspopup=\"listbox\" aria-expanded=\"true\">全部</button><div role=\"listbox\" aria-label=\"调类筛选\"><button type=\"button\" role=\"option\" aria-selected=\"true\">全部</button><button type=\"button\" role=\"option\" aria-selected=\"false\">平</button></div></div>",
+      "css": ".ds-filter { position: relative; display: inline-flex; align-items: center; gap: 6px; color: var(--ink-3, #6d7578); font: 400 11px \"Noto Sans CJK SC\", \"Source Han Sans SC\", sans-serif; } .ds-filter > button { min-width: 86px; height: 32px; padding: 0 10px; border: 1px solid var(--rule, #d4d8d4); border-radius: 3px; color: var(--ink-2, #42494d); background: var(--paper, #f6f7f4); } .ds-filter [role=\"listbox\"] { position: absolute; top: 38px; left: 18px; width: 132px; padding: 4px; border: 1px solid var(--rule-strong, #b9c0bc); background: var(--paper-raised, #ffffff); box-shadow: 0 10px 24px rgb(31 45 40 / .14); } .ds-filter [role=\"option\"] { width: 100%; height: 34px; border: 0; color: var(--ink-2, #42494d); background: transparent; text-align: left; } .ds-filter [role=\"option\"][aria-selected=\"true\"] { color: var(--accent-dark, #173f52); background: var(--accent-wash, #eef5f7); font-weight: 650; }"
     },
     {
       "name": "Selected Phonology Cell",
@@ -179,11 +179,11 @@
       "css": ".ds-detail-tabs { width: 100%; display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--rule-strong, #b9c0bc); background: var(--paper-raised, #ffffff); } .ds-detail-tabs button { position: relative; height: 40px; border: 0; border-right: 1px solid var(--rule, #d4d8d4); color: var(--ink-3, #6d7578); background: transparent; font: 400 11px \"Noto Sans CJK SC\", \"Source Han Sans SC\", sans-serif; } .ds-detail-tabs button:last-child { border-right: 0; } .ds-detail-tabs button:hover { color: var(--ink, #171b1d); background: var(--paper, #f6f7f4); } .ds-detail-tabs button.ds-active { color: var(--accent-dark, #173f52); font-weight: 650; } .ds-detail-tabs button.ds-active::after { content: \"\"; position: absolute; right: 9px; bottom: 0; left: 9px; height: 2px; background: var(--accent, #245a72); } .ds-detail-tabs button:focus-visible { outline: 2px solid var(--focus, #1f6f93); outline-offset: -3px; }"
     },
     {
-      "name": "Evidence Leaf Header",
+      "name": "Detail Modal Header",
       "kind": "card",
-      "description": "The attached record identity block, using intentionally non-scholarly example content in this preview.",
+      "description": "The modal record identity block, using intentionally non-scholarly example content in this preview.",
       "html": "<header class=\"ds-evidence-header\"><div class=\"ds-evidence-id\"><code>C000</code><span><i aria-hidden=\"true\"></i>格位已对齐</span></div><div class=\"ds-evidence-title\"><b>例</b><span><strong>[IPA]</strong><small>界面示例 · 未经校勘</small></span></div></header>",
-      "css": ".ds-evidence-header { width: 350px; padding: 15px 16px 14px; border-bottom: 1px solid var(--rule-strong, #b9c0bc); color: var(--ink, #171b1d); background: var(--paper-blue, #edf2f5); font-family: \"Noto Sans CJK SC\", \"Source Han Sans SC\", sans-serif; } .ds-evidence-id { display: flex; align-items: center; justify-content: space-between; } .ds-evidence-id code { color: var(--accent-dark, #173f52); font: 720 11px ui-monospace, monospace; letter-spacing: .08em; } .ds-evidence-id span { display: flex; align-items: center; gap: 5px; color: var(--ink-3, #6d7578); font-size: 9px; } .ds-evidence-id i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent, #245a72); } .ds-evidence-title { display: flex; align-items: center; gap: 13px; margin-top: 12px; } .ds-evidence-title > b { width: 52px; height: 52px; display: grid; place-items: center; border: 1px solid var(--accent, #245a72); color: var(--accent-dark, #173f52); background: rgb(255 255 255 / .55); font: 680 29px \"Noto Serif CJK SC\", \"Source Han Serif SC\", serif; } .ds-evidence-title > span { display: flex; flex-direction: column; gap: 3px; } .ds-evidence-title strong { font: 650 21px \"Charis SIL\", \"Doulos SIL\", sans-serif; } .ds-evidence-title small { color: var(--ink-3, #6d7578); font-size: 10px; }"
+      "css": ".ds-evidence-header { width: min(100%, 560px); padding: 18px 24px 16px; border-bottom: 1px solid var(--rule-strong, #b9c0bc); color: var(--ink, #171b1d); background: var(--paper-blue, #edf2f5); font-family: \"Noto Sans CJK SC\", \"Source Han Sans SC\", sans-serif; } .ds-evidence-id { display: flex; align-items: center; justify-content: space-between; } .ds-evidence-id code { color: var(--accent-dark, #173f52); font: 720 11px ui-monospace, monospace; letter-spacing: .08em; } .ds-evidence-id span { display: flex; align-items: center; gap: 5px; color: var(--ink-3, #6d7578); font-size: 9px; } .ds-evidence-id i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent, #245a72); } .ds-evidence-title { display: flex; align-items: center; gap: 13px; margin-top: 12px; } .ds-evidence-title > b { width: 52px; height: 52px; display: grid; place-items: center; border: 1px solid var(--accent, #245a72); color: var(--accent-dark, #173f52); background: rgb(255 255 255 / .55); font: 680 29px \"Noto Serif CJK SC\", \"Source Han Serif SC\", serif; } .ds-evidence-title > span { display: flex; flex-direction: column; gap: 3px; } .ds-evidence-title strong { font: 650 21px \"Charis SIL\", \"Doulos SIL\", sans-serif; } .ds-evidence-title small { color: var(--ink-3, #6d7578); font-size: 10px; }"
     },
     {
       "name": "Multi-reading Register",
@@ -202,7 +202,7 @@
   ],
   "narrative": {
     "northStar": "The Archival Registration Table",
-    "overview": "The shipped interface behaves like a working table in a phonology archive: cool paper fields, ink-black evidence, mineral-blue registration marks, and ruled coordinates. It is intentionally dense and rectilinear. The matrix is the primary object; header, layer rail, controls, and the attached detail leaf exist to orient or inspect it rather than compete with it.\n\nIts visual thesis is stable coordinates with replaceable registration layers. Changing dialect or Sino-Japanese readings changes the cell contents and active layer state without changing the Middle Chinese X/Y skeleton. Desktop keeps the matrix and evidence leaf in one working plane; narrow screens retain the full scrollable matrix and move that same evidence leaf into an edge-to-edge bottom sheet.",
+    "overview": "The shipped interface behaves like a working table in a phonology archive: cool paper fields, ink-black evidence, mineral-blue registration marks, and ruled coordinates. It is intentionally dense and rectilinear. The full-width matrix is the primary object; header, layer rail, custom filter controls, and the separate detail modal exist to orient or inspect it rather than compete with it.\n\nIts visual thesis is stable coordinates with replaceable registration layers. Changing dialect or Sino-Japanese readings changes the cell contents and active layer state without changing the Middle Chinese X/Y skeleton. Selection opens a wide modal evidence page on desktop and an edge-to-edge modal page on narrow screens without permanently reducing matrix width.",
     "keyCharacteristics": [
       "Cool archival paper rather than warm lifestyle neutrals.",
       "Ink-first data with mineral blue reserved for active, selected, aligned, and focused states.",
@@ -215,7 +215,7 @@
       { "name": "The Honest-Provenance Rule", "body": "Illustrative phonology values remain visibly labeled as interface examples and unreviewed data in both the global strip and evidence footer.", "section": "colors" },
       { "name": "The Three-Script Rule", "body": "Use sans for interface language, serif for CJK evidence characters, and the IPA/mono stacks only for phonetic or indexed data; do not collapse all three into one generic face.", "section": "typography" },
       { "name": "The Coordinate-Persistence Rule", "body": "Responsive layouts may compress chrome and relocate details, but they never reorder, summarize away, or replace the full X/Y matrix.", "section": "layout" },
-      { "name": "The Evidence-Lift Rule", "body": "Shadow is reserved for the overlaid mobile evidence sheet or a tiny pressed control state; ordinary data regions stay ruled and flat.", "section": "elevation" },
+      { "name": "The Evidence-Lift Rule", "body": "Shadow is reserved for the active detail modal or a tiny pressed control state; ordinary data regions stay ruled and flat.", "section": "elevation" },
       { "name": "The Ruled-Plane Rule", "body": "If content belongs to the same coordinate or evidence structure, separate it with a shared rule or paper tone rather than wrapping it in another rounded card.", "section": "shapes" }
     ],
     "dos": [
@@ -230,7 +230,7 @@
       "Don't turn the workbench into a dashboard of detached rounded cards, metric tiles, or decorative charts.",
       "Don't use gradients, glass blur, glow borders, pill controls, or large soft shadows; they contradict the shipped archival material.",
       "Don't use mineral blue as a broad decorative background or introduce a second competing accent family.",
-      "Don't collapse the mobile matrix into cards or hide phonological dimensions; keep the full scrollable coordinate plane and move details to the sheet.",
+      "Don't collapse the mobile matrix into cards or hide phonological dimensions; keep the full scrollable coordinate plane and open details in the separate modal page.",
       "Don't present illustrative values as cited scholarship, discard alternate reflex rows, or remove the persistent provenance warnings.",
       "Don't enlarge every label to consumer-app proportions; preserve the compact hierarchy while maintaining focus, contrast, and zoom legibility."
     ]

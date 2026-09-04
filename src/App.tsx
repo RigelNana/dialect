@@ -4,13 +4,13 @@ import { useQuery } from '@tanstack/react-query'
 import { useNavigate, useSearch } from '@tanstack/react-router'
 import {
   ArrowsLeftRight,
-  CaretDown,
   MagnifyingGlass,
   Rows,
   SquaresFour,
 } from '@phosphor-icons/react'
 import { fetchLayerData, findSlot, layers, rows, slotById, slots } from './data'
 import { PhonologyMatrix } from './components/PhonologyMatrix'
+import { FilterMenu } from './components/FilterMenu'
 import { SlotDetail } from './components/SlotDetail'
 import { useInterfaceStore } from './store'
 
@@ -136,24 +136,18 @@ export function App() {
 
       <section className="matrix-toolbar" aria-label="矩阵筛选与显示设置">
         <div className="filter-cluster">
-          <label>
-            <span>摄</span>
-            <div className="select-wrap">
-              <select value={search.she} onChange={(event) => updateSearch({ she: event.target.value })}>
-                {sheOptions.map((option) => <option key={option}>{option}</option>)}
-              </select>
-              <CaretDown size={13} aria-hidden="true" />
-            </div>
-          </label>
-          <label>
-            <span>调类</span>
-            <div className="select-wrap">
-              <select value={search.tone} onChange={(event) => updateSearch({ tone: event.target.value })}>
-                {toneOptions.map((option) => <option key={option}>{option}</option>)}
-              </select>
-              <CaretDown size={13} aria-hidden="true" />
-            </div>
-          </label>
+          <FilterMenu
+            label="摄"
+            value={search.she}
+            options={sheOptions}
+            onChange={(she) => updateSearch({ she })}
+          />
+          <FilterMenu
+            label="调类"
+            value={search.tone}
+            options={toneOptions}
+            onChange={(tone) => updateSearch({ tone })}
+          />
           <button
             type="button"
             className="clear-filter"
