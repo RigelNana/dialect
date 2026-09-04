@@ -40,6 +40,8 @@ export interface Reconstruction {
   nucleus?: string
   coda?: string
   ipa: string
+  toneValue?: string
+  toneSource?: string
 }
 
 export interface PhonologySlot {

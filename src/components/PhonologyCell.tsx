@@ -45,7 +45,10 @@ export function PhonologyCell({ slot, layer, reflexes = [], selected, compact, o
       {isMiddleChinese ? (
         <>
           <span className="cell-reading ipa">{slot.reconstruction.ipa}</span>
-          <span className="cell-meta">{slot.conditions.at(-1)}</span>
+          <span className="cell-meta cell-tone">
+            <span>{slot.conditions.at(-1)}</span>
+            {!compact && <ToneContour value={slot.reconstruction.toneValue} compact />}
+          </span>
         </>
       ) : primary ? (
         isJapanese ? (

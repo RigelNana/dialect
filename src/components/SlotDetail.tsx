@@ -30,6 +30,7 @@ const detailTabs: Array<{ id: DetailTab; label: string }> = [
   { id: 'reflexes', label: '反射总览' },
   { id: 'development', label: '演变链' },
 ]
+const displaySegment = (segment: string | undefined) => segment === undefined ? '未分解' : segment || '∅'
 
 export function SlotDetail({ slot, row, initial, qieyunMetadata, activeLayer, activePayload, open }: SlotDetailProps) {
   const closeDetail = useInterfaceStore((state) => state.closeDetail)
@@ -171,14 +172,26 @@ export function SlotDetail({ slot, row, initial, qieyunMetadata, activeLayer, ac
                 <span>{slot.reconstruction.system}</span>
               </div>
               <div className="segment-strip" aria-label="拟音音段分解">
-                <div><span>声母</span><strong className="ipa">{slot.reconstruction.initial || '未分解'}</strong></div>
-                <div><span>介音</span><strong className="ipa">{slot.reconstruction.medial || '未分解'}</strong></div>
-                <div><span>韵核</span><strong className="ipa">{slot.reconstruction.nucleus || '未分解'}</strong></div>
-                <div><span>韵尾</span><strong className="ipa">{slot.reconstruction.coda || '未分解'}</strong></div>
+                <div><span>声母</span><strong className="ipa">{displaySegment(slot.reconstruction.initial)}</strong></div>
+                <div><span>介音</span><strong className="ipa">{displaySegment(slot.reconstruction.medial)}</strong></div>
+                <div><span>韵核</span><strong className="ipa">{displaySegment(slot.reconstruction.nucleus)}</strong></div>
+                <div><span>韵尾</span><strong className="ipa">{displaySegment(slot.reconstruction.coda)}</strong></div>
               </div>
               <div className="full-reconstruction">
                 <span>完整拟音</span>
                 <strong className="ipa">{slot.reconstruction.ipa}</strong>
+              </div>
+              <div className="tone-study middle-tone">
+                <div>
+                  <span>中古调类</span>
+                  <strong>{row.tone}声</strong>
+                </div>
+                <ToneContour value={slot.reconstruction.toneValue} />
+                <div>
+                  <span>五度标记走向</span>
+                  <strong>{slot.reconstruction.toneValue}</strong>
+                  <small>{slot.reconstruction.toneSource}</small>
+                </div>
               </div>
             </section>
 

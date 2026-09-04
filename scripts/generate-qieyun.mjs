@@ -13,6 +13,12 @@ const reconstruct = panwuyun({
   版本: '2023：漢語古音手冊',
   聲調記號: '隱藏',
 })
+const reconstructWithTone = panwuyun({
+  版本: '2023：漢語古音手冊',
+  聲調記號: '調值數字',
+})
+const graphemeSegmenter = new Intl.Segmenter('und', { granularity: 'grapheme' })
+const consonantalCodas = new Set(['m', 'n', 'ŋ', 'p', 't', 'k'])
 const positions = Array.from(TshetUinh.資料.iter音韻地位())
 const positionsByInitial = new Map()
 const rowsByKey = new Map()
@@ -26,6 +32,30 @@ function commonPrefix(values) {
     if (!prefix) break
   }
   return prefix.normalize('NFC')
+}
+
+function commonSuffix(values) {
+  if (values.length === 0) return ''
+  let suffix = values[0]
+  for (const value of values.slice(1)) {
+    while (suffix && !value.endsWith(suffix)) suffix = suffix.slice(1)
+    if (!suffix) break
+  }
+  return suffix.normalize('NFC')
+}
+
+function decomposeReconstruction(fullReconstruction, initial) {
+  const final = fullReconstruction.slice(initial.length)
+  const graphemes = Array.from(graphemeSegmenter.segment(final), (segment) => segment.segment)
+  const last = graphemes.at(-1) ?? ''
+  const hasGlideCoda = (last === 'i' || last === 'u') && graphemes.length > 1
+  const coda = consonantalCodas.has(last) || hasGlideCoda ? graphemes.pop() ?? '' : ''
+  const nucleus = graphemes.pop() ?? ''
+  return {
+    medial: graphemes.join(''),
+    nucleus,
+    coda,
+  }
 }
 
 for (const position of positions) {
@@ -47,6 +77,8 @@ for (const position of positions) {
   }
 
   const reconstruction = reconstruct(position)
+  const reconstructionWithTone = reconstructWithTone(position)
+  const toneValue = reconstructionWithTone.slice(reconstruction.length).normalize('NFKC')
   positionsByInitial.set(position.母, [...(positionsByInitial.get(position.母) ?? []), { position, reconstruction }])
   const characters = Array.from(new Set(entries.map((entry) => entry.字頭)))
   const representativeCharacter = characters.find((character) => character.length === 1) ?? characters[0]
@@ -65,6 +97,8 @@ for (const position of positions) {
     reconstruction: {
       system: '潘悟雲 2023（tshet-uinh-examples）',
       ipa: `*${reconstruction}`,
+      toneValue,
+      toneSource: '潘悟雲 2023 方案沿用《漢語中古音》2013 调值',
     },
     conditions: [position.清濁, `${position.等}等`, position.呼 ? `${position.呼}口` : '開合中立', position.類 ? `${position.類}類` : '', `${position.聲}聲`].filter(Boolean),
     fanqie,
@@ -73,24 +107,45 @@ for (const position of positions) {
   })
 }
 
+const fallbackInitialById = Object.fromEntries(Array.from(positionsByInitial, ([label, items]) => [
+  `initial-${label}`,
+  commonPrefix(items.map((item) => item.reconstruction)),
+]))
+const slotsByRow = new Map()
+for (const slot of slots) slotsByRow.set(slot.rowId, [...(slotsByRow.get(slot.rowId) ?? []), slot])
+const initialFormsById = new Map()
+
+for (const rowSlots of slotsByRow.values()) {
+  const fullReconstructions = rowSlots.map((slot) => slot.reconstruction.ipa.slice(1))
+  const sharedFinal = rowSlots.length > 1 ? commonSuffix(fullReconstructions) : ''
+  for (const slot of rowSlots) {
+    const fullReconstruction = slot.reconstruction.ipa.slice(1)
+    const fallbackInitial = fallbackInitialById[slot.initialId] ?? ''
+    const initial = sharedFinal && fullReconstruction.length > sharedFinal.length
+      ? fullReconstruction.slice(0, -sharedFinal.length)
+      : fallbackInitial
+    const segments = decomposeReconstruction(fullReconstruction, initial)
+    slot.reconstruction.initial = initial
+    slot.reconstruction.medial = segments.medial
+    slot.reconstruction.nucleus = segments.nucleus
+    slot.reconstruction.coda = segments.coda
+    initialFormsById.set(slot.initialId, [...(initialFormsById.get(slot.initialId) ?? []), initial])
+  }
+}
+
 const initials = Array.from(positionsByInitial, ([label, items]) => {
-  const initialReconstruction = commonPrefix(items.map((item) => item.reconstruction))
+  const forms = initialFormsById.get(`initial-${label}`) ?? []
+  const initialReconstruction = commonPrefix(forms) || fallbackInitialById[`initial-${label}`] || label
   const sample = items[0].position
   return {
     id: `initial-${label}`,
     label,
-    reconstruction: initialReconstruction || label,
+    reconstruction: initialReconstruction,
     place: sample.音,
     voicing: sample.清濁,
     aspiration: initialReconstruction.includes('ʰ') ? '送氣' : sample.清濁.includes('濁') ? '濁音' : '不送氣',
   }
 })
-
-
-const initialById = Object.fromEntries(initials.map((initial) => [initial.id, initial]))
-for (const slot of slots) {
-  slot.reconstruction.initial = initialById[slot.initialId]?.reconstruction
-}
 const payload = {
   metadata: {
     sourceName: 'TshetUinh.js',
