@@ -8,20 +8,48 @@ import {
   Rows,
   SquaresFour,
 } from '@phosphor-icons/react'
-import { fetchLayerData, findSlot, layers, rows, slotById, slots } from './data'
+import { fetchLayerData, findSlot, kaomMetadata, layers, rows, slotById, slots } from './data'
 import { PhonologyMatrix } from './components/PhonologyMatrix'
 import { FilterMenu } from './components/FilterMenu'
 import { SlotDetail } from './components/SlotDetail'
 import { useInterfaceStore } from './store'
 
-const sheOptions = ['全部', ...Array.from(new Set(rows.map((row) => row.she)))]
-const toneOptions = ['全部', '平', '上', '去', '入']
+const rhymeGroupOptions = [
+  { value: 'all', label: '全部' },
+  { value: 'tong', label: '通' },
+  { value: 'jiang', label: '江' },
+  { value: 'zhi', label: '止' },
+  { value: 'yu', label: '遇' },
+  { value: 'xian', label: '咸' },
+] as const
+const toneOptions = [
+  { value: 'all', label: '全部' },
+  { value: 'level', label: '平' },
+  { value: 'rising', label: '上' },
+  { value: 'departing', label: '去' },
+  { value: 'entering', label: '入' },
+] as const
+const rhymeGroupLabels: Record<string, string | undefined> = {
+  all: undefined,
+  tong: '通',
+  jiang: '江',
+  zhi: '止',
+  yu: '遇',
+  xian: '咸',
+}
+const toneLabels: Record<string, string | undefined> = {
+  all: undefined,
+  level: '平',
+  rising: '上',
+  departing: '去',
+  entering: '入',
+}
 const layerGroups = ['骨架', '官话', '吴语', '粤语', '闽语', '日语']
 
 export function App() {
   const search = useSearch({ from: '/' })
   const navigate = useNavigate({ from: '/' })
-  const [queryText, setQueryText] = useState(search.query)
+  const [queryText, setQueryText] = useState(search.search)
   const [searchMessage, setSearchMessage] = useState('')
   const selectedSlotId = useInterfaceStore((state) => state.selectedSlotId)
   const setSelectedSlot = useInterfaceStore((state) => state.setSelectedSlot)
@@ -36,12 +64,17 @@ export function App() {
     queryKey: ['reflex-layer', activeLayer.id],
     queryFn: ({ signal }) => fetchLayerData(activeLayer.id, signal),
   })
+  const activeRecordCount = layerQuery.data
+    ? Object.values(layerQuery.data.reflexes).reduce((total, records) => total + records.length, 0)
+    : 0
 
   const visibleRows = useMemo(() => rows.filter((row) => {
-    const matchesShe = search.she === '全部' || row.she === search.she
-    const matchesTone = search.tone === '全部' || row.tone === search.tone
-    return matchesShe && matchesTone
-  }), [search.she, search.tone])
+    const selectedRhymeGroup = rhymeGroupLabels[search.rhymeGroup]
+    const selectedTone = toneLabels[search.tone]
+    const matchesRhymeGroup = !selectedRhymeGroup || row.she === selectedRhymeGroup
+    const matchesTone = !selectedTone || row.tone === selectedTone
+    return matchesRhymeGroup && matchesTone
+  }), [search.rhymeGroup, search.tone])
 
   const updateSearch = (next: Partial<typeof search>) => {
     navigate({
@@ -60,17 +93,20 @@ export function App() {
     }
     setSelectedSlot(match.id)
     setSearchMessage(`已定位 ${match.id} · ${match.representativeCharacter}`)
-    updateSearch({ query: queryText.trim() })
+    updateSearch({ search: queryText.trim() })
   }
 
   return (
     <main className="app-shell">
       <div className="provenance-bar">
-        <span>INTERFACE PREVIEW</span>
-        <strong>当前为界面示例数据，音值与来源未经校勘</strong>
-        <span>SCHEMA 0.1</span>
+        <span>{activeLayer.kind === 'dialect' ? 'SOURCED REFLEXES' : 'INTERFACE PREVIEW'}</span>
+        <strong>
+          {activeLayer.kind === 'dialect'
+            ? `方言读音据古音小镜指定语言点；原站提示自动切分未经校对`
+            : '中古拟音与日语层仍为界面示例，未经校勘'}
+        </strong>
+        <span>{activeLayer.kind === 'dialect' ? `KAOM ${kaomMetadata.importedRecords}` : 'SCHEMA 0.1'}</span>
       </div>
-
       <header className="app-header">
         <div className="brand-lockup" aria-label="音格 中古音韵反射矩阵">
           <div className="brand-mark"><span>音</span><span>格</span></div>
@@ -138,9 +174,9 @@ export function App() {
         <div className="filter-cluster">
           <FilterMenu
             label="摄"
-            value={search.she}
-            options={sheOptions}
-            onChange={(she) => updateSearch({ she })}
+            value={search.rhymeGroup}
+            options={rhymeGroupOptions}
+            onChange={(rhymeGroup) => updateSearch({ rhymeGroup })}
           />
           <FilterMenu
             label="调类"
@@ -151,8 +187,8 @@ export function App() {
           <button
             type="button"
             className="clear-filter"
-            disabled={search.she === '全部' && search.tone === '全部'}
-            onClick={() => updateSearch({ she: '全部', tone: '全部' })}
+            disabled={search.rhymeGroup === 'all' && search.tone === 'all'}
+            onClick={() => updateSearch({ rhymeGroup: 'all', tone: 'all' })}
           >
             清除筛选
           </button>
@@ -161,7 +197,7 @@ export function App() {
         <div className="matrix-summary" aria-live="polite">
           {searchMessage && <span className="search-message">{searchMessage}</span>}
           <span><b>{visibleRows.length}</b> 韵类行</span>
-          <span><b>{slots.length}</b> 示例格位</span>
+          <span><b>{activeLayer.kind === 'dialect' ? activeRecordCount : slots.length}</b> {activeLayer.kind === 'dialect' ? '本层实录' : '格位'}</span>
           <div className="density-control" aria-label="单元格密度">
             <button
               type="button"

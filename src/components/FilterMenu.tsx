@@ -2,19 +2,24 @@ import { useEffect, useId, useRef, useState } from 'react'
 import type { KeyboardEvent as ReactKeyboardEvent } from 'react'
 import { CaretDown, Check } from '@phosphor-icons/react'
 
-interface FilterMenuProps {
+export interface FilterOption<Value extends string = string> {
+  value: Value
   label: string
-  value: string
-  options: readonly string[]
-  onChange: (value: string) => void
 }
 
-export function FilterMenu({ label, value, options, onChange }: FilterMenuProps) {
+interface FilterMenuProps<Value extends string> {
+  label: string
+  value: Value
+  options: readonly FilterOption<Value>[]
+  onChange: (value: Value) => void
+}
+export function FilterMenu<Value extends string>({ label, value, options, onChange }: FilterMenuProps<Value>) {
   const [open, setOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLButtonElement>(null)
   const listboxRef = useRef<HTMLDivElement>(null)
   const listboxId = useId()
+  const selectedOption = options.find((option) => option.value === value) ?? options[0]
 
   useEffect(() => {
     if (!open) return
@@ -46,7 +51,7 @@ export function FilterMenu({ label, value, options, onChange }: FilterMenuProps)
   const handleTriggerKeyDown = (event: ReactKeyboardEvent<HTMLButtonElement>) => {
     if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return
     event.preventDefault()
-    const selectedIndex = Math.max(0, options.indexOf(value))
+    const selectedIndex = Math.max(0, options.findIndex((option) => option.value === value))
     openAndFocus(event.key === 'ArrowDown' ? selectedIndex : options.length - 1)
   }
 
@@ -75,17 +80,17 @@ export function FilterMenu({ label, value, options, onChange }: FilterMenuProps)
         ref={triggerRef}
         type="button"
         className="filter-trigger"
-        aria-label={`${label}：${value}`}
+        aria-label={`${label}：${selectedOption.label}`}
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={listboxId}
         onClick={() => {
           if (open) setOpen(false)
-          else openAndFocus(Math.max(0, options.indexOf(value)))
+          else openAndFocus(Math.max(0, options.findIndex((option) => option.value === value)))
         }}
         onKeyDown={handleTriggerKeyDown}
       >
-        <span>{value}</span>
+        <span>{selectedOption.label}</span>
         <CaretDown size={13} aria-hidden="true" />
       </button>
 
@@ -99,19 +104,19 @@ export function FilterMenu({ label, value, options, onChange }: FilterMenuProps)
       >
         {options.map((option) => (
           <button
-            key={option}
+            key={option.value}
             type="button"
             role="option"
-            aria-selected={option === value}
+            aria-selected={option.value === value}
             tabIndex={-1}
             onClick={() => {
-              onChange(option)
+              onChange(option.value)
               setOpen(false)
               triggerRef.current?.focus()
             }}
           >
-            <span>{option}</span>
-            {option === value && <Check size={14} weight="bold" aria-hidden="true" />}
+            <span>{option.label}</span>
+            {option.value === value && <Check size={14} weight="bold" aria-hidden="true" />}
           </button>
         ))}
       </div>

@@ -15,6 +15,9 @@ export function PhonologyCell({ slot, layer, reflexes = [], selected, compact, o
   const hasAlternates = reflexes.length > 1
   const isMiddleChinese = layer.kind === 'middle-chinese'
   const isJapanese = layer.kind === 'japanese'
+  const toneLabel = primary
+    ? [primary.toneCategory, primary.toneValue].filter(Boolean).join(' · ') || '调值未标'
+    : ''
   const accessibleValue = isMiddleChinese
     ? `${slot.reconstruction.ipa}，${slot.conditions.at(-1)}`
     : primary
@@ -53,8 +56,8 @@ export function PhonologyCell({ slot, layer, reflexes = [], selected, compact, o
           <>
             <span className="cell-reading ipa">[{primary.ipa}]</span>
             <span className="cell-meta cell-tone">
-              <span>{primary.toneCategory} · {primary.toneValue}</span>
-              {!compact && <ToneContour value={primary.toneValue} compact />}
+              <span>{toneLabel}</span>
+              {!compact && /^[1-5]+$/u.test(primary.toneValue ?? '') && <ToneContour value={primary.toneValue} compact />}
             </span>
             {hasAlternates && <span className="cell-alternate">+{reflexes.length - 1} 读音</span>}
           </>

@@ -9,7 +9,7 @@ import {
   X,
 } from '@phosphor-icons/react'
 import type { Layer, LayerPayload, PhonologySlot } from '../domain'
-import { fetchLayerData, initialById, layers, rowById } from '../data'
+import { fetchLayerData, initialById, kaomMetadata, layers, rowById } from '../data'
 import { useInterfaceStore, type DetailTab } from '../store'
 import { ToneContour } from './ToneContour'
 
@@ -227,6 +227,11 @@ export function SlotDetail({ slot, activeLayer, activePayload, open }: SlotDetai
                         ? `${reflex.kana ?? ''} ${reflex.romaji ?? ''}`
                         : `${reflex.toneCategory ?? ''} ${reflex.toneValue ?? ''}`}
                       {reflex.sandhiCondition && <small>{reflex.sandhiCondition}</small>}
+                      {reflex.sourceUrl && (
+                        <a className="source-link" href={reflex.sourceUrl} target="_blank" rel="noreferrer">
+                          来源 {reflex.sourcePointId}
+                        </a>
+                      )}
                     </span>
                   </div>
                 ))
@@ -264,7 +269,9 @@ export function SlotDetail({ slot, activeLayer, activePayload, open }: SlotDetai
                   {activeLayer.kind === 'middle-chinese' ? slot.conditions.join(' · ') : activeReflex ? `[${activeReflex.ipa}]` : '未收'}
                 </strong>
                 <small>
-                  {activeLayer.kind === 'dialect' && activeReflex ? `${activeReflex.toneCategory} · ${activeReflex.toneValue}` : activeReflex?.kana ?? activeLayer.description}
+                  {activeLayer.kind === 'dialect' && activeReflex
+                    ? [activeReflex.toneCategory, activeReflex.toneValue].filter(Boolean).join(' · ') || '调值未标'
+                    : activeReflex?.kana ?? activeLayer.description}
                 </small>
               </div>
             </div>
@@ -278,7 +285,7 @@ export function SlotDetail({ slot, activeLayer, activePayload, open }: SlotDetai
                 <ToneContour value={activeReflex.toneValue} />
                 <div>
                   <span>现代调类</span>
-                  <strong>{activeReflex.toneCategory}</strong>
+                  <strong>{activeReflex.toneCategory ?? '原站未标调类'}</strong>
                   <small>单字调 {activeReflex.citationTone}</small>
                 </div>
               </div>
@@ -291,8 +298,8 @@ export function SlotDetail({ slot, activeLayer, activePayload, open }: SlotDetai
                   <div key={`${reflex.readingLayer}-${index}`}>
                     <span>{reflex.readingLayer}</span>
                     <strong className="ipa">[{reflex.ipa}]</strong>
-                    <span>{reflex.toneCategory} · {reflex.toneValue}</span>
-                    <small>{reflex.sandhiCondition ?? '单字音'}</small>
+                    <span>{[reflex.toneCategory, reflex.toneValue].filter(Boolean).join(' · ') || '调值未标'}</span>
+                    <small>{reflex.sourceNote ?? reflex.sandhiCondition ?? '单字音'}</small>
                   </div>
                 ))}
               </div>
@@ -304,8 +311,23 @@ export function SlotDetail({ slot, activeLayer, activePayload, open }: SlotDetai
               </ol>
             )}
 
+            {activeReflex?.sourceUrl && (
+              <div className="source-record">
+                <span>资料来源</span>
+                <strong>{activeReflex.source}</strong>
+                <small>{activeReflex.sourceNote ?? kaomMetadata.siteWarning}</small>
+                <a href={activeReflex.sourceUrl} target="_blank" rel="noreferrer">
+                  查看原始语言点 {activeReflex.sourcePointId}
+                </a>
+              </div>
+            )}
+
             {!activeReflex && activeLayer.kind !== 'middle-chinese' && (
-              <p className="detail-note">当前示例层尚未收录这个格位。矩阵骨架仍保持原位，等待补录。</p>
+              <p className="detail-note">
+                {activeLayer.kind === 'dialect'
+                  ? '古音小镜目标语言点未收录这个代表字，矩阵格位保持原位。'
+                  : '当前日语示例层尚未收录这个格位，矩阵骨架仍保持原位。'}
+              </p>
             )}
           </section>
         )}
@@ -313,7 +335,13 @@ export function SlotDetail({ slot, activeLayer, activePayload, open }: SlotDetai
 
       <footer className="detail-footer">
         <span>资料状态</span>
-        <strong>界面示例 · 未经校勘</strong>
+        {activeLayer.kind === 'dialect' ? (
+          <a href={activeReflex?.sourceUrl ?? kaomMetadata.sourceUrl} target="_blank" rel="noreferrer">
+            古音小镜 · {activeReflex?.sourcePointId ?? '本格位未收'}
+          </a>
+        ) : (
+          <strong>界面示例 · 未经校勘</strong>
+        )}
       </footer>
       </aside>
     </div>

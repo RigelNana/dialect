@@ -73,6 +73,9 @@ export interface Reflex {
   borrowingPeriod?: string
   laterChanges?: string[]
   source?: string
+  sourceUrl?: string
+  sourcePointId?: string
+  sourceNote?: string
 }
 
 export interface Layer {

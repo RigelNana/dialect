@@ -114,7 +114,7 @@ Its visual thesis is stable coordinates with replaceable registration layers. Ch
 - Ink-first data with mineral blue reserved for active, selected, aligned, and focused states.
 - Hairline rules, square data cells, and restrained control radii instead of detached dashboard cards.
 - A compact bilingual hierarchy built for repeated scholarly scanning.
-- Persistent provenance language that labels all shipped demo content as illustrative and unreviewed.
+- Persistent provenance language distinguishes sourced 古音小镜 dialect records from still-illustrative Middle Chinese and Sino-Japanese content.
 
 ## Colors
 
@@ -138,12 +138,12 @@ The palette is a cool paper-and-ink system with one mineral-blue state family; t
 - **Rule / Strong Rule** (`rule`, `rule-strong`): cell divisions and major section boundaries. Structure comes from these lines, not shadowed cards.
 
 ### Semantic
-- **Provenance Warning** (`provenance-warning`): the unreviewed-demo status in the evidence footer; it is not a general decorative accent.
-- **Focus Blue** (`focus-blue`): the global keyboard focus outline.
+- **Provenance Warning** (`provenance-warning`): unresolved or illustrative data status in the evidence footer; it is not a general decorative accent.
+- **Focus Blue** (`focus-blue`): the global keyboard focus outline outside neutral matrix selection.
 
-**The Blue-Is-State Rule.** Mineral blue marks a current layer, selected slot, aligned record, focus target, or plotted relationship; it is not ambient decoration.
+**The Blue-Is-State Rule.** Mineral blue marks a current layer, aligned record, control focus, or plotted relationship; selected matrix cells use neutral paper and ink.
 
-**The Honest-Provenance Rule.** Illustrative phonology values remain visibly labeled as interface examples and unreviewed data in both the global strip and evidence footer.
+**The Honest-Provenance Rule.** Sourced dialect records expose the 古音小镜 point ID and URL plus its automatic-segmentation warning. Illustrative Middle Chinese and Sino-Japanese values retain their unreviewed labels.
 
 ## Typography
 
@@ -229,7 +229,7 @@ Borders are structural rather than ornamental: regular rules divide cells, stron
 - Opening the modal moves focus to Close; Tab and Shift+Tab cycle within it, Escape closes it, and focus returns to the invoking cell or control. Closed modal content uses `display: none` and cannot receive pointer or keyboard interaction.
 - The header aligns slot ID/status, a 52px square representative-character tile, enlarged IPA, and category summary. Three equal tabs share rules; active state uses darker type plus a 2px mineral registration line, not a filled pill.
 - The position tab uses a two-column evidence layout on wide screens and a linear layout below 900px. Detail content remains organized as ruled definition grids, four-part segment strips, reflex tables, and a linear development chain. Comparison rows render every reflex rather than silently selecting the first: reading layer, IPA, kana/romaji or tone category/value, and sandhi condition remain visible.
-- The modal always ends with a visible provenance footer stating that the interface data is illustrative and unreviewed.
+- The modal always ends with a provenance footer. Dialect records link to their exact 古音小镜 language point; illustrative layers retain the unreviewed-data warning.
 
 ### Tone Contour
 - The full plot is 116px by 70px; its compact in-cell form renders at 32px by 19px from a 44px by 26px view box.
@@ -248,7 +248,7 @@ Borders are structural rather than ornamental: regular rules divide cells, stron
 - **Do** use mineral blue only for active, selected, aligned, focused, or plotted relationships.
 - **Do** use one-pixel rules and paper-tone shifts to group dense information before considering elevation.
 - **Do** keep serif CJK characters, IPA forms, slot IDs, reading layers, tone categories, tone values, and sandhi conditions visually distinct and separately legible.
-- **Do** retain explicit “示例 / 未经校勘 / 资料待补” language anywhere illustrative or missing data appears.
+- **Do** distinguish sourced dialect records, illustrative reconstructions, uncollected readings, and third-party rights cautions explicitly.
 - **Do** preserve semantic grid/table roles, accessible names, selected-cell reveal, focus containment/restoration, visible focus, and reduced-motion behavior when extending components.
 
 ### Don't:
@@ -256,5 +256,5 @@ Borders are structural rather than ornamental: regular rules divide cells, stron
 - **Don't** use gradients, glass blur, glow borders, pill controls, or large soft shadows; they contradict the shipped archival material.
 - **Don't** use mineral blue as a broad decorative background or introduce a second competing accent family.
 - **Don't** collapse the mobile matrix into cards or hide phonological dimensions; keep the full scrollable coordinate plane and open details in the separate modal page.
-- **Don't** present illustrative values as cited scholarship, discard alternate reflex rows, or remove the persistent provenance warnings.
+- **Don't** present illustrative values as cited scholarship, discard alternate reflex rows, strip 古音小镜 point attribution, or suppress the source site’s automatic-segmentation warning.
 - **Don't** enlarge every label to consumer-app proportions; preserve the compact hierarchy while maintaining focus, contrast, and zoom legibility.

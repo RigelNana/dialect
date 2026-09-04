@@ -1,12 +1,40 @@
+import kaomData from './data/kaom-reflexes.json'
 import type {
   Initial,
   Layer,
   LayerPayload,
   MatrixRow,
   PhonologySlot,
+  ReadingLayer,
   Reflex,
-  Tone,
 } from './domain'
+ 
+interface ImportedKaomReading {
+  ipa: string
+  toneValue?: string
+  toneCategory?: string
+  readingLayer: ReadingLayer
+  note?: string
+  sourcePointId: string
+  sourceLabel: string
+  sourceUrl: string
+}
+
+interface ImportedKaomPayload {
+  metadata: {
+    sourceName: string
+    sourceUrl: string
+    sourceAboutUrl: string
+    retrievedAt: string
+    importedRecords: number
+    siteWarning: string
+    rightsNote: string
+  }
+  readings: Record<string, Record<string, ImportedKaomReading[]>>
+}
+
+const sourcedDialectData = kaomData as unknown as ImportedKaomPayload
+export const kaomMetadata = sourcedDialectData.metadata
 
 export const initials: Initial[] = [
   { id: 'bang', label: '帮', reconstruction: 'p', place: '双唇', voicing: '全清', aspiration: '不送气' },
@@ -46,14 +74,14 @@ export const rows: MatrixRow[] = [
 
 export const layers: Layer[] = [
   { id: 'middle-chinese', label: '中古音系', shortLabel: '中古', kind: 'middle-chinese', group: '骨架', description: '切韵音系格位与拟音' },
-  { id: 'beijing', label: '北京', shortLabel: '北京', kind: 'dialect', group: '官话', locality: '北京', description: '北京城区单字音' },
-  { id: 'jinan', label: '济南', shortLabel: '济南', kind: 'dialect', group: '官话', locality: '济南', description: '济南方言示例层' },
-  { id: 'shanghai', label: '上海', shortLabel: '上海', kind: 'dialect', group: '吴语', locality: '上海', description: '上海市区单字音' },
-  { id: 'suzhou', label: '苏州', shortLabel: '苏州', kind: 'dialect', group: '吴语', locality: '苏州', description: '苏州方言示例层' },
-  { id: 'guangzhou', label: '广州', shortLabel: '广州', kind: 'dialect', group: '粤语', locality: '广州', description: '广州粤语单字音' },
-  { id: 'xiamen-literary', label: '厦门 · 文读', shortLabel: '厦门文', kind: 'dialect', group: '闽语', locality: '厦门', description: '厦门音系文读层' },
-  { id: 'xiamen-colloquial', label: '厦门 · 白读', shortLabel: '厦门白', kind: 'dialect', group: '闽语', locality: '厦门', description: '厦门音系白读层' },
-  { id: 'fuzhou', label: '福州', shortLabel: '福州', kind: 'dialect', group: '闽语', locality: '福州', description: '福州方言示例层' },
+  { id: 'beijing', label: '北京', shortLabel: '北京', kind: 'dialect', group: '官话', locality: '北京', description: '古音小镜 A069 · 北京市区' },
+  { id: 'jinan', label: '济南', shortLabel: '济南', kind: 'dialect', group: '官话', locality: '济南', description: '古音小镜 A100 · 山东济南' },
+  { id: 'shanghai', label: '上海', shortLabel: '上海', kind: 'dialect', group: '吴语', locality: '上海', description: '古音小镜 A004 · 上海宝山霜草墩' },
+  { id: 'suzhou', label: '苏州', shortLabel: '苏州', kind: 'dialect', group: '吴语', locality: '苏州', description: '古音小镜 A030 · 江苏苏州一' },
+  { id: 'guangzhou', label: '广州', shortLabel: '广州', kind: 'dialect', group: '粤语', locality: '广州', description: '古音小镜 A260 · 广东广州' },
+  { id: 'xiamen-literary', label: '厦门 · 文读', shortLabel: '厦门文', kind: 'dialect', group: '闽语', locality: '厦门', description: '古音小镜 Y1109 · 厦门思明文读' },
+  { id: 'xiamen-colloquial', label: '厦门 · 白读', shortLabel: '厦门白', kind: 'dialect', group: '闽语', locality: '厦门', description: '古音小镜 Y1109 · 厦门思明白读' },
+  { id: 'fuzhou', label: '福州', shortLabel: '福州', kind: 'dialect', group: '闽语', locality: '福州', description: '古音小镜 Y0565 · 福州鼓楼' },
   { id: 'goon', label: '日语 · 吴音', shortLabel: '吴音', kind: 'japanese', group: '日语', description: '日本汉字音吴音层' },
   { id: 'kanon', label: '日语 · 汉音', shortLabel: '汉音', kind: 'japanese', group: '日语', description: '日本汉字音汉音层' },
   { id: 'toon', label: '日语 · 唐音', shortLabel: '唐音', kind: 'japanese', group: '日语', description: '日本汉字音唐音层' },
@@ -166,27 +194,6 @@ export const slotById = Object.fromEntries(slots.map((slot) => [slot.id, slot]))
 export const rowById = Object.fromEntries(rows.map((row) => [row.id, row]))
 export const initialById = Object.fromEntries(initials.map((initial) => [initial.id, initial]))
 
-const layerInitials: Record<string, Record<string, string>> = {
-  beijing: { bang: 'p', pang: 'pʰ', bing: 'p', ming: 'm', duan: 't', tou: 'tʰ', ding: 't', ni: 'n', jian: 'tɕ', xi: 'tɕʰ', qun: 'tɕ', yi: 'ŋ' },
-  jinan: { bang: 'p', pang: 'pʰ', bing: 'p', ming: 'm', duan: 't', tou: 'tʰ', ding: 't', ni: 'n', jian: 'k', xi: 'kʰ', qun: 'k', yi: 'ŋ' },
-  shanghai: { bang: 'p', pang: 'pʰ', bing: 'b', ming: 'm', duan: 't', tou: 'tʰ', ding: 'd', ni: 'n', jian: 'k', xi: 'kʰ', qun: 'g', yi: 'ŋ' },
-  suzhou: { bang: 'p', pang: 'pʰ', bing: 'b', ming: 'm', duan: 't', tou: 'tʰ', ding: 'd', ni: 'n', jian: 'k', xi: 'kʰ', qun: 'g', yi: 'ŋ' },
-  guangzhou: { bang: 'p', pang: 'pʰ', bing: 'p', ming: 'm', duan: 't', tou: 'tʰ', ding: 't', ni: 'n', jian: 'k', xi: 'kʰ', qun: 'k', yi: 'ŋ' },
-  'xiamen-literary': { bang: 'p', pang: 'pʰ', bing: 'p', ming: 'b', duan: 't', tou: 'tʰ', ding: 't', ni: 'l', jian: 'k', xi: 'kʰ', qun: 'k', yi: 'g' },
-  'xiamen-colloquial': { bang: 'p', pang: 'pʰ', bing: 'p', ming: 'm', duan: 't', tou: 'tʰ', ding: 't', ni: 'n', jian: 'k', xi: 'kʰ', qun: 'k', yi: 'ŋ' },
-  fuzhou: { bang: 'p', pang: 'pʰ', bing: 'p', ming: 'm', duan: 't', tou: 'tʰ', ding: 't', ni: 'n', jian: 'k', xi: 'kʰ', qun: 'k', yi: 'ŋ' },
-}
-
-const toneValues: Record<string, Record<Tone, [string, string]>> = {
-  beijing: { 平: ['阴平', '55'], 上: ['上声', '214'], 去: ['去声', '51'], 入: ['入派', '35'] },
-  jinan: { 平: ['阴平', '213'], 上: ['上声', '55'], 去: ['去声', '21'], 入: ['入派', '42'] },
-  shanghai: { 平: ['阴平', '53'], 上: ['阴上', '34'], 去: ['阴去', '23'], 入: ['阴入', '5'] },
-  suzhou: { 平: ['阴平', '44'], 上: ['阴上', '52'], 去: ['阴去', '412'], 入: ['阴入', '4'] },
-  guangzhou: { 平: ['阴平', '55'], 上: ['阴上', '35'], 去: ['阴去', '33'], 入: ['上阴入', '5'] },
-  'xiamen-literary': { 平: ['阴平', '55'], 上: ['阴上', '51'], 去: ['阴去', '21'], 入: ['阴入', '32'] },
-  'xiamen-colloquial': { 平: ['阴平', '44'], 上: ['阴上', '53'], 去: ['阴去', '21'], 入: ['阴入', '32'] },
-  fuzhou: { 平: ['阴平', '44'], 上: ['上声', '31'], 去: ['阴去', '213'], 入: ['阴入', '24'] },
-}
 
 const japaneseReadings: Record<string, { kana: string; romaji: string; ipa: string }> = {
   東: { kana: 'トウ', romaji: 'tō', ipa: 'toː' }, 通: { kana: 'ツウ', romaji: 'tsū', ipa: 'tsɯː' }, 同: { kana: 'ドウ', romaji: 'dō', ipa: 'doː' }, 蒙: { kana: 'モウ', romaji: 'mō', ipa: 'moː' }, 公: { kana: 'コウ', romaji: 'kō', ipa: 'koː' }, 空: { kana: 'クウ', romaji: 'kū', ipa: 'kɯː' },
@@ -195,36 +202,24 @@ const japaneseReadings: Record<string, { kana: string; romaji: string; ipa: stri
   南: { kana: 'ナン', romaji: 'nan', ipa: 'naɴ' }, 感: { kana: 'カン', romaji: 'kan', ipa: 'kaɴ' },
 }
 
-const makeDialectReflex = (slot: PhonologySlot, layerId: string): Reflex => {
+const makeSourcedDialectReflexes = (slot: PhonologySlot, layerId: string): Reflex[] => {
+  const records = sourcedDialectData.readings[slot.representativeCharacter]?.[layerId] ?? []
   const row = rowById[slot.rowId]
   const initial = initialById[slot.initialId]
-  const isVoiced = initial.voicing.includes('浊')
-  const baseTone = toneValues[layerId]?.[row.tone] ?? ['调类待定', '']
-  const toneCategory = isVoiced && row.tone === '平' ? '阳平' : baseTone[0]
-  const toneValue = isVoiced && row.tone === '平' ? (layerId === 'guangzhou' ? '21' : '35') : baseTone[1]
-  const onset = layerInitials[layerId]?.[slot.initialId] ?? initial.reconstruction
-  const nucleusMap: Record<string, string> = { u: layerId === 'guangzhou' ? 'ʊ' : 'u', 'ɐ': 'a', e: layerId === 'shanghai' ? 'i' : 'i', 'ə': layerId === 'guangzhou' ? 'ɐ' : 'ə' }
-  const codaMap: Record<string, string> = { ŋ: 'ŋ', k: layerId === 'beijing' || layerId === 'jinan' ? '' : 'k̚', m: layerId === 'beijing' ? 'n' : 'm', p: layerId === 'beijing' ? '' : 'p̚', '': '' }
-  const nucleus = nucleusMap[slot.reconstruction.nucleus ?? ''] ?? slot.reconstruction.nucleus ?? ''
-  const coda = codaMap[slot.reconstruction.coda ?? ''] ?? slot.reconstruction.coda ?? ''
-  const readingLayer = layerId === 'xiamen-literary' ? '文读' : layerId === 'xiamen-colloquial' ? '白读' : '常读'
-  return {
+  return records.map((record) => ({
     slotId: slot.id,
     layerId,
-    readingLayer,
-    initial: onset,
-    medial: slot.reconstruction.medial,
-    nucleus,
-    coda,
-    ipa: `${onset}${slot.reconstruction.medial ?? ''}${nucleus}${coda}`,
+    readingLayer: record.readingLayer,
+    ipa: record.ipa,
     historicalTone: `${initial.voicing}${row.tone}`,
-    toneCategory,
-    toneValue,
-    citationTone: toneValue,
-    sandhiTone: layerId.includes('xiamen') ? (toneValue === '44' ? '22' : toneValue.split('').reverse().join('')) : undefined,
-    sandhiCondition: layerId.includes('xiamen') ? '非末字位置示例' : undefined,
-    source: '界面演示数据，待文献校勘',
-  }
+    toneCategory: record.toneCategory,
+    toneValue: record.toneValue,
+    citationTone: record.toneValue,
+    source: `古音小镜 · ${record.sourceLabel}`,
+    sourceUrl: record.sourceUrl,
+    sourcePointId: record.sourcePointId,
+    sourceNote: record.note,
+  }))
 }
 
 const makeJapaneseReflex = (slot: PhonologySlot, layerId: string): Reflex | undefined => {
@@ -263,17 +258,8 @@ export async function fetchLayerData(layerId: string, signal?: AbortSignal): Pro
 
   if (layer.kind === 'dialect') {
     slots.forEach((slot) => {
-      const reflex = makeDialectReflex(slot, layer.id)
-      reflexes[slot.id] = [reflex]
-      if (layer.id === 'xiamen-colloquial' && ['東', '同', '木'].includes(slot.representativeCharacter)) {
-        reflexes[slot.id].push({
-          ...reflex,
-          readingLayer: '连读变调',
-          ipa: reflex.ipa,
-          toneValue: reflex.sandhiTone,
-          toneCategory: '连读调',
-        })
-      }
+      const sourcedReflexes = makeSourcedDialectReflexes(slot, layer.id)
+      if (sourcedReflexes.length > 0) reflexes[slot.id] = sourcedReflexes
     })
   }
 
@@ -287,7 +273,7 @@ export async function fetchLayerData(layerId: string, signal?: AbortSignal): Pro
   return {
     layer,
     reflexes,
-    updatedAt: '2026-09-04',
+    updatedAt: layer.kind === 'dialect' ? kaomMetadata.retrievedAt.slice(0, 10) : '2026-09-04',
   }
 }
 

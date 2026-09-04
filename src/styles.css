@@ -571,6 +571,7 @@
   .reflex-table-row:hover { background: var(--accent-wash); }
   .reflex-table-row b { color: var(--ink); font-size: 11px; font-weight: 650; }
   .reflex-table-row small { margin-top: 2px; color: var(--ink-3); font-size: 8px; }
+  .source-link { width: max-content; margin-top: 3px; color: var(--accent-dark); font-size: 8px; text-decoration: underline; text-underline-offset: 2px; }
 
   .development-chain { display: grid; gap: 0; }
   .chain-node { position: relative; padding: 11px 12px; border: 1px solid var(--rule); background: var(--paper-raised); }
@@ -592,6 +593,11 @@
   .reading-variants > div > small { grid-column: 1 / -1; padding: 0 8px 5px; color: var(--ink-3); font-size: 8px; }
   .change-notes { margin: 16px 0 0; padding-left: 24px; color: var(--ink-2); font-size: 10px; line-height: 1.75; }
   .change-notes li::marker { color: var(--accent); font-family: ui-monospace, monospace; }
+  .source-record { display: grid; gap: 5px; margin-top: 16px; padding: 11px 12px; border: 1px solid var(--rule); background: var(--paper-blue); }
+  .source-record > span { color: var(--ink-3); font-size: 8px; }
+  .source-record > strong { color: var(--ink); font-size: 11px; }
+  .source-record > small { max-width: 70ch; color: var(--ink-3); font-size: 9px; line-height: 1.55; }
+  .source-record > a, .detail-footer a { width: max-content; color: var(--accent-dark); font-size: 9px; text-decoration: underline; text-underline-offset: 2px; }
 
   .detail-footer { display: flex; align-items: center; justify-content: space-between; padding: 0 16px; border-top: 1px solid var(--rule-strong); color: var(--ink-3); background: var(--paper-muted); font-size: 8px; }
   .detail-footer strong { color: var(--warning); font-weight: 650; }

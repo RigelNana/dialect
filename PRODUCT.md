@@ -40,11 +40,11 @@ The main screen is a dense, full-width matrix. X is Middle Chinese initial. Y is
 - Later modules: filters, map, timeline, literary/colloquial analysis, sound-change rules, sources, character lookup, sound-change queries, multi-layer comparison, and CSV/Excel/JSON export.
 - Large datasets must load by layer rather than as one global JSON file. Grid rendering must support row and column virtualization.
 - Unicode text is normalized with NFC where normalization is needed. NFKC must not be applied globally because research-significant character distinctions and IPA combining marks must survive.
-- Demo content is explicitly illustrative until authoritative datasets and citations are supplied.
+- Dialect layers currently contain 120 attested reading records imported from seven named 古音小镜 language points across 70 representative characters. Missing records remain explicitly unfilled. Middle Chinese reconstructions and Sino-Japanese layers remain illustrative until separately sourced.
 
 ## Evidence on Hand
 
-The user supplied the complete domain model, six first-release modules, target technical stack, and examples such as C001, 東, 方言調類/調值, and Sino-Japanese reading layers. No authoritative phonological dataset, bibliography, logo, or brand assets were supplied. The interface must not present illustrative values as cited research data.
+The user supplied the complete domain model, six first-release modules, target technical stack, and slot examples. Dialect evidence is now imported from 古音小镜’s public “音节（不含声调）” query for points A004, A030, A069, A100, A260, Y0565, and Y1109, retrieved 2026-09-04 with a 400ms request interval. 古音小镜 warns that its point tables are automatically segmented and unreviewed. Its original content is declared CC BY 4.0, while underlying language-point records may have third-party rights; every imported record therefore retains its point ID, source URL, warning, and rights note. Middle Chinese reconstruction and Sino-Japanese bibliography remain unresolved and must not be presented as sourced scholarship.
 
 ## Product Principles
 

@@ -1,0 +1,1414 @@
+{
+  "metadata": {
+    "sourceName": "古音小镜",
+    "sourceUrl": "http://www.kaom.net/si_word.php",
+    "sourceAboutUrl": "http://www.kaom.net/admin_about.php",
+    "retrievedAt": "2026-09-04T08:27:36.448Z",
+    "queryMode": "音节（不含声调）地图查询",
+    "requestedCharacters": 70,
+    "importedRecords": 120,
+    "requestDelayMs": 400,
+    "siteWarning": "古音小镜说明语言点表由程序自动切分，未经校对，可能带电子文件和技术瑕疵。",
+    "rightsNote": "古音小镜原创内容声明采用 CC BY 4.0；语言点记录可能来自第三方材料，使用时仍须核查原始来源及权利。",
+    "points": {
+      "A004": {
+        "layerIds": [
+          "shanghai"
+        ],
+        "label": "吴语·上海宝山霜草墩"
+      },
+      "A030": {
+        "layerIds": [
+          "suzhou"
+        ],
+        "label": "吴语·江苏苏州一"
+      },
+      "A069": {
+        "layerIds": [
+          "beijing"
+        ],
+        "label": "燕京官话·北京北京市区"
+      },
+      "A100": {
+        "layerIds": [
+          "jinan"
+        ],
+        "label": "冀鲁官话·山东济南"
+      },
+      "A260": {
+        "layerIds": [
+          "guangzhou"
+        ],
+        "label": "粤语·广东广州"
+      },
+      "Y0565": {
+        "layerIds": [
+          "fuzhou"
+        ],
+        "label": "闽语·福州鼓楼"
+      },
+      "Y1109": {
+        "layerIds": [
+          "xiamen-literary",
+          "xiamen-colloquial"
+        ],
+        "label": "闽语·厦门思明"
+      }
+    }
+  },
+  "readings": {
+    "東": {
+      "shanghai": [
+        {
+          "ipa": "toŋ",
+          "toneValue": "52",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "sourcePointId": "A004",
+          "sourceLabel": "吴语·上海宝山霜草墩",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A004"
+        }
+      ],
+      "suzhou": [
+        {
+          "ipa": "toŋ",
+          "toneValue": "44",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "sourcePointId": "A030",
+          "sourceLabel": "吴语·江苏苏州一",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A030"
+        }
+      ],
+      "beijing": [
+        {
+          "ipa": "tuŋ",
+          "toneValue": "55",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "sourcePointId": "A069",
+          "sourceLabel": "燕京官话·北京北京市区",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A069"
+        }
+      ],
+      "jinan": [
+        {
+          "ipa": "tuŋ",
+          "toneValue": "213",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "sourcePointId": "A100",
+          "sourceLabel": "冀鲁官话·山东济南",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A100"
+        }
+      ],
+      "fuzhou": [
+        {
+          "ipa": "tøyŋ",
+          "toneValue": "55",
+          "readingLayer": "白读",
+          "note": "～邊。白",
+          "sourcePointId": "Y0565",
+          "sourceLabel": "闽语·福州鼓楼",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=Y0565"
+        },
+        {
+          "ipa": "tuŋ",
+          "toneValue": "55",
+          "readingLayer": "文读",
+          "note": "閩～。文",
+          "sourcePointId": "Y0565",
+          "sourceLabel": "闽语·福州鼓楼",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=Y0565"
+        }
+      ],
+      "xiamen-colloquial": [
+        {
+          "ipa": "taŋ",
+          "toneValue": "44",
+          "readingLayer": "白读",
+          "note": "白",
+          "sourcePointId": "Y1109",
+          "sourceLabel": "闽语·厦门思明",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=Y1109"
+        }
+      ],
+      "xiamen-literary": [
+        {
+          "ipa": "tɔŋ",
+          "toneValue": "44",
+          "readingLayer": "文读",
+          "note": "文",
+          "sourcePointId": "Y1109",
+          "sourceLabel": "闽语·厦门思明",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=Y1109"
+        }
+      ],
+      "guangzhou": [
+        {
+          "ipa": "tʊŋ",
+          "toneValue": "53",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "sourcePointId": "A260",
+          "sourceLabel": "粤语·广东广州",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A260"
+        }
+      ]
+    },
+    "通": {
+      "shanghai": [
+        {
+          "ipa": "thoŋ",
+          "toneValue": "52",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "sourcePointId": "A004",
+          "sourceLabel": "吴语·上海宝山霜草墩",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A004"
+        }
+      ],
+      "suzhou": [
+        {
+          "ipa": "thoŋ",
+          "toneValue": "44",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "sourcePointId": "A030",
+          "sourceLabel": "吴语·江苏苏州一",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A030"
+        }
+      ],
+      "beijing": [
+        {
+          "ipa": "thuŋ",
+          "toneValue": "55",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "sourcePointId": "A069",
+          "sourceLabel": "燕京官话·北京北京市区",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A069"
+        }
+      ],
+      "jinan": [
+        {
+          "ipa": "thuŋ",
+          "toneValue": "213",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "sourcePointId": "A100",
+          "sourceLabel": "冀鲁官话·山东济南",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A100"
+        }
+      ],
+      "fuzhou": [
+        {
+          "ipa": "thøyŋ",
+          "toneValue": "55",
+          "readingLayer": "白读",
+          "note": "～透。白",
+          "sourcePointId": "Y0565",
+          "sourceLabel": "闽语·福州鼓楼",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=Y0565"
+        },
+        {
+          "ipa": "thuŋ",
+          "toneValue": "55",
+          "readingLayer": "文读",
+          "note": "～知。文",
+          "sourcePointId": "Y0565",
+          "sourceLabel": "闽语·福州鼓楼",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=Y0565"
+        }
+      ],
+      "xiamen-colloquial": [
+        {
+          "ipa": "thaŋ",
+          "toneValue": "44",
+          "readingLayer": "白读",
+          "note": "白",
+          "sourcePointId": "Y1109",
+          "sourceLabel": "闽语·厦门思明",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=Y1109"
+        }
+      ],
+      "xiamen-literary": [
+        {
+          "ipa": "thɔŋ",
+          "toneValue": "44",
+          "readingLayer": "文读",
+          "note": "文",
+          "sourcePointId": "Y1109",
+          "sourceLabel": "闽语·厦门思明",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=Y1109"
+        }
+      ],
+      "guangzhou": [
+        {
+          "ipa": "thʊŋ",
+          "toneValue": "53",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "sourcePointId": "A260",
+          "sourceLabel": "粤语·广东广州",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A260"
+        }
+      ]
+    },
+    "同": {
+      "beijing": [
+        {
+          "ipa": "thuŋ",
+          "toneValue": "35",
+          "toneCategory": "陽平",
+          "readingLayer": "常读",
+          "sourcePointId": "A069",
+          "sourceLabel": "燕京官话·北京北京市区",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A069"
+        }
+      ],
+      "jinan": [
+        {
+          "ipa": "thuŋ",
+          "toneValue": "42",
+          "toneCategory": "陽平",
+          "readingLayer": "常读",
+          "sourcePointId": "A100",
+          "sourceLabel": "冀鲁官话·山东济南",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A100"
+        }
+      ],
+      "shanghai": [
+        {
+          "ipa": "doŋ",
+          "toneValue": "231",
+          "toneCategory": "陽平",
+          "readingLayer": "常读",
+          "sourcePointId": "A004",
+          "sourceLabel": "吴语·上海宝山霜草墩",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A004"
+        }
+      ],
+      "suzhou": [
+        {
+          "ipa": "doŋ",
+          "toneValue": "24",
+          "toneCategory": "陽平",
+          "readingLayer": "常读",
+          "sourcePointId": "A030",
+          "sourceLabel": "吴语·江苏苏州一",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A030"
+        }
+      ],
+      "guangzhou": [
+        {
+          "ipa": "thʊŋ",
+          "toneValue": "21",
+          "toneCategory": "陽平",
+          "readingLayer": "常读",
+          "sourcePointId": "A260",
+          "sourceLabel": "粤语·广东广州",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A260"
+        }
+      ]
+    },
+    "空": {
+      "beijing": [
+        {
+          "ipa": "khuŋ",
+          "toneValue": "55",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "note": "空虛",
+          "sourcePointId": "A069",
+          "sourceLabel": "燕京官话·北京北京市区",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A069"
+        }
+      ],
+      "jinan": [
+        {
+          "ipa": "khuŋ",
+          "toneValue": "213",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "note": "空虛",
+          "sourcePointId": "A100",
+          "sourceLabel": "冀鲁官话·山东济南",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A100"
+        }
+      ],
+      "shanghai": [
+        {
+          "ipa": "khoŋ",
+          "toneValue": "52",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "note": "空虛之意",
+          "sourcePointId": "A004",
+          "sourceLabel": "吴语·上海宝山霜草墩",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A004"
+        }
+      ],
+      "suzhou": [
+        {
+          "ipa": "khoŋ",
+          "toneValue": "44",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "note": "空虛",
+          "sourcePointId": "A030",
+          "sourceLabel": "吴语·江苏苏州一",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A030"
+        }
+      ],
+      "guangzhou": [
+        {
+          "ipa": "hʊŋ",
+          "toneValue": "53",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "note": "空虛",
+          "sourcePointId": "A260",
+          "sourceLabel": "粤语·广东广州",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A260"
+        }
+      ]
+    },
+    "動": {
+      "beijing": [
+        {
+          "ipa": "tuŋ",
+          "toneValue": "51",
+          "toneCategory": "去",
+          "readingLayer": "常读",
+          "sourcePointId": "A069",
+          "sourceLabel": "燕京官话·北京北京市区",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A069"
+        }
+      ],
+      "jinan": [
+        {
+          "ipa": "tuŋ",
+          "toneValue": "21",
+          "toneCategory": "去",
+          "readingLayer": "常读",
+          "sourcePointId": "A100",
+          "sourceLabel": "冀鲁官话·山东济南",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A100"
+        }
+      ],
+      "shanghai": [
+        {
+          "ipa": "doŋ",
+          "toneValue": "213",
+          "toneCategory": "陽去",
+          "readingLayer": "常读",
+          "sourcePointId": "A004",
+          "sourceLabel": "吴语·上海宝山霜草墩",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A004"
+        }
+      ],
+      "suzhou": [
+        {
+          "ipa": "doŋ",
+          "toneValue": "31",
+          "toneCategory": "陽去",
+          "readingLayer": "常读",
+          "sourcePointId": "A030",
+          "sourceLabel": "吴语·江苏苏州一",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A030"
+        }
+      ],
+      "xiamen-colloquial": [
+        {
+          "ipa": "taŋ",
+          "toneValue": "22",
+          "readingLayer": "白读",
+          "note": "白",
+          "sourcePointId": "Y1109",
+          "sourceLabel": "闽语·厦门思明",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=Y1109"
+        }
+      ],
+      "xiamen-literary": [
+        {
+          "ipa": "tɔŋ",
+          "toneValue": "22",
+          "readingLayer": "文读",
+          "note": "文",
+          "sourcePointId": "Y1109",
+          "sourceLabel": "闽语·厦门思明",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=Y1109"
+        }
+      ],
+      "fuzhou": [
+        {
+          "ipa": "toyŋ",
+          "toneValue": "242",
+          "readingLayer": "白读",
+          "note": "定～：動彈。白",
+          "sourcePointId": "Y0565",
+          "sourceLabel": "闽语·福州鼓楼",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=Y0565"
+        },
+        {
+          "ipa": "touŋ",
+          "toneValue": "242",
+          "readingLayer": "文读",
+          "note": "活～。文",
+          "sourcePointId": "Y0565",
+          "sourceLabel": "闽语·福州鼓楼",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=Y0565"
+        }
+      ],
+      "guangzhou": [
+        {
+          "ipa": "tʊŋ",
+          "toneValue": "22",
+          "toneCategory": "陽去",
+          "readingLayer": "常读",
+          "sourcePointId": "A260",
+          "sourceLabel": "粤语·广东广州",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A260"
+        }
+      ]
+    },
+    "孔": {
+      "shanghai": [
+        {
+          "ipa": "khoŋ",
+          "toneValue": "434",
+          "toneCategory": "陰上",
+          "readingLayer": "常读",
+          "sourcePointId": "A004",
+          "sourceLabel": "吴语·上海宝山霜草墩",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A004"
+        }
+      ],
+      "suzhou": [
+        {
+          "ipa": "khoŋ",
+          "toneValue": "52",
+          "toneCategory": "上",
+          "readingLayer": "常读",
+          "sourcePointId": "A030",
+          "sourceLabel": "吴语·江苏苏州一",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A030"
+        }
+      ],
+      "beijing": [
+        {
+          "ipa": "khuŋ",
+          "toneValue": "214",
+          "toneCategory": "上",
+          "readingLayer": "常读",
+          "sourcePointId": "A069",
+          "sourceLabel": "燕京官话·北京北京市区",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A069"
+        }
+      ],
+      "jinan": [
+        {
+          "ipa": "khuŋ",
+          "toneValue": "55",
+          "toneCategory": "上",
+          "readingLayer": "常读",
+          "sourcePointId": "A100",
+          "sourceLabel": "冀鲁官话·山东济南",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A100"
+        }
+      ],
+      "fuzhou": [
+        {
+          "ipa": "khuŋ",
+          "toneValue": "33",
+          "readingLayer": "常读",
+          "sourcePointId": "Y0565",
+          "sourceLabel": "闽语·福州鼓楼",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=Y0565"
+        }
+      ],
+      "xiamen-colloquial": [
+        {
+          "ipa": "khaŋ",
+          "toneValue": "53",
+          "readingLayer": "白读",
+          "note": "白",
+          "sourcePointId": "Y1109",
+          "sourceLabel": "闽语·厦门思明",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=Y1109"
+        }
+      ],
+      "xiamen-literary": [
+        {
+          "ipa": "khɔŋ",
+          "toneValue": "53",
+          "readingLayer": "文读",
+          "note": "文",
+          "sourcePointId": "Y1109",
+          "sourceLabel": "闽语·厦门思明",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=Y1109"
+        }
+      ],
+      "guangzhou": [
+        {
+          "ipa": "hʊŋ",
+          "toneValue": "35",
+          "toneCategory": "陰上",
+          "readingLayer": "常读",
+          "sourcePointId": "A260",
+          "sourceLabel": "粤语·广东广州",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A260"
+        }
+      ]
+    },
+    "洞": {
+      "beijing": [
+        {
+          "ipa": "tuŋ",
+          "toneValue": "51",
+          "toneCategory": "去",
+          "readingLayer": "常读",
+          "sourcePointId": "A069",
+          "sourceLabel": "燕京官话·北京北京市区",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A069"
+        }
+      ],
+      "jinan": [
+        {
+          "ipa": "tuŋ",
+          "toneValue": "21",
+          "toneCategory": "去",
+          "readingLayer": "常读",
+          "sourcePointId": "A100",
+          "sourceLabel": "冀鲁官话·山东济南",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A100"
+        }
+      ],
+      "suzhou": [
+        {
+          "ipa": "doŋ",
+          "toneValue": "31",
+          "toneCategory": "陽去",
+          "readingLayer": "常读",
+          "sourcePointId": "A030",
+          "sourceLabel": "吴语·江苏苏州一",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A030"
+        }
+      ],
+      "guangzhou": [
+        {
+          "ipa": "tʊŋ",
+          "toneValue": "22",
+          "toneCategory": "陽去",
+          "readingLayer": "常读",
+          "sourcePointId": "A260",
+          "sourceLabel": "粤语·广东广州",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A260"
+        }
+      ],
+      "fuzhou": [
+        {
+          "ipa": "toyŋ",
+          "toneValue": "242",
+          "readingLayer": "常读",
+          "sourcePointId": "Y0565",
+          "sourceLabel": "闽语·福州鼓楼",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=Y0565"
+        }
+      ]
+    },
+    "木": {
+      "beijing": [
+        {
+          "ipa": "mu",
+          "toneValue": "51",
+          "toneCategory": "去",
+          "readingLayer": "常读",
+          "sourcePointId": "A069",
+          "sourceLabel": "燕京官话·北京北京市区",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A069"
+        }
+      ],
+      "jinan": [
+        {
+          "ipa": "mu",
+          "toneValue": "213",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "note": "異讀[m][u][213/21]",
+          "sourcePointId": "A100",
+          "sourceLabel": "冀鲁官话·山东济南",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A100"
+        },
+        {
+          "ipa": "mu",
+          "toneValue": "21",
+          "toneCategory": "去",
+          "readingLayer": "常读",
+          "note": "異讀[m][u][213/21]",
+          "sourcePointId": "A100",
+          "sourceLabel": "冀鲁官话·山东济南",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A100"
+        }
+      ],
+      "fuzhou": [
+        {
+          "ipa": "muʔ",
+          "toneValue": "5",
+          "readingLayer": "常读",
+          "sourcePointId": "Y0565",
+          "sourceLabel": "闽语·福州鼓楼",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=Y0565"
+        }
+      ],
+      "shanghai": [
+        {
+          "ipa": "moʔ",
+          "toneValue": "23",
+          "toneCategory": "陽入",
+          "readingLayer": "常读",
+          "sourcePointId": "A004",
+          "sourceLabel": "吴语·上海宝山霜草墩",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A004"
+        }
+      ],
+      "suzhou": [
+        {
+          "ipa": "moʔ",
+          "toneValue": "23",
+          "toneCategory": "陽入",
+          "readingLayer": "常读",
+          "sourcePointId": "A030",
+          "sourceLabel": "吴语·江苏苏州一",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A030"
+        }
+      ],
+      "xiamen-colloquial": [
+        {
+          "ipa": "bak",
+          "toneValue": "44",
+          "readingLayer": "白读",
+          "note": "白",
+          "sourcePointId": "Y1109",
+          "sourceLabel": "闽语·厦门思明",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=Y1109"
+        }
+      ],
+      "xiamen-literary": [
+        {
+          "ipa": "bɔk",
+          "toneValue": "44",
+          "readingLayer": "文读",
+          "note": "文",
+          "sourcePointId": "Y1109",
+          "sourceLabel": "闽语·厦门思明",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=Y1109"
+        }
+      ],
+      "guangzhou": [
+        {
+          "ipa": "mʊk",
+          "toneValue": "2",
+          "toneCategory": "陽入",
+          "readingLayer": "常读",
+          "sourcePointId": "A260",
+          "sourceLabel": "粤语·广东广州",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A260"
+        }
+      ]
+    },
+    "酷": {
+      "beijing": [
+        {
+          "ipa": "khu",
+          "toneValue": "51",
+          "toneCategory": "去",
+          "readingLayer": "常读",
+          "sourcePointId": "A069",
+          "sourceLabel": "燕京官话·北京北京市区",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A069"
+        }
+      ],
+      "jinan": [
+        {
+          "ipa": "khu",
+          "toneValue": "213",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "sourcePointId": "A100",
+          "sourceLabel": "冀鲁官话·山东济南",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A100"
+        }
+      ],
+      "shanghai": [
+        {
+          "ipa": "khoʔ",
+          "toneValue": "55",
+          "toneCategory": "陰入",
+          "readingLayer": "常读",
+          "sourcePointId": "A004",
+          "sourceLabel": "吴语·上海宝山霜草墩",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A004"
+        }
+      ],
+      "suzhou": [
+        {
+          "ipa": "khoʔ",
+          "toneValue": "4",
+          "toneCategory": "陰入",
+          "readingLayer": "常读",
+          "sourcePointId": "A030",
+          "sourceLabel": "吴语·江苏苏州一",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A030"
+        }
+      ],
+      "guangzhou": [
+        {
+          "ipa": "hʊk",
+          "toneValue": "2",
+          "toneCategory": "陽入",
+          "readingLayer": "常读",
+          "sourcePointId": "A260",
+          "sourceLabel": "粤语·广东广州",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A260"
+        }
+      ]
+    },
+    "腔": {
+      "suzhou": [
+        {
+          "ipa": "tɕhiaŋ",
+          "toneValue": "44",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "note": "異讀[tɕh][iaŋ/iɒŋ][44]",
+          "sourcePointId": "A030",
+          "sourceLabel": "吴语·江苏苏州一",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A030"
+        },
+        {
+          "ipa": "tɕhiɒŋ",
+          "toneValue": "44",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "note": "異讀[tɕh][iaŋ/iɒŋ][44]",
+          "sourcePointId": "A030",
+          "sourceLabel": "吴语·江苏苏州一",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A030"
+        }
+      ],
+      "beijing": [
+        {
+          "ipa": "tɕhiaŋ",
+          "toneValue": "55",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "sourcePointId": "A069",
+          "sourceLabel": "燕京官话·北京北京市区",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A069"
+        }
+      ],
+      "jinan": [
+        {
+          "ipa": "tɕhiaŋ",
+          "toneValue": "213",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "sourcePointId": "A100",
+          "sourceLabel": "冀鲁官话·山东济南",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A100"
+        }
+      ],
+      "guangzhou": [
+        {
+          "ipa": "hɔŋ",
+          "toneValue": "53",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "sourcePointId": "A260",
+          "sourceLabel": "粤语·广东广州",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A260"
+        }
+      ],
+      "shanghai": [
+        {
+          "ipa": "tɕhiɒ~",
+          "toneValue": "52",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "sourcePointId": "A004",
+          "sourceLabel": "吴语·上海宝山霜草墩",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A004"
+        }
+      ]
+    },
+    "博": {
+      "guangzhou": [
+        {
+          "ipa": "pɔk",
+          "toneValue": "33",
+          "toneCategory": "下陰入",
+          "readingLayer": "常读",
+          "sourcePointId": "A260",
+          "sourceLabel": "粤语·广东广州",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A260"
+        }
+      ],
+      "beijing": [
+        {
+          "ipa": "po",
+          "toneValue": "35",
+          "toneCategory": "陽平",
+          "readingLayer": "常读",
+          "sourcePointId": "A069",
+          "sourceLabel": "燕京官话·北京北京市区",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A069"
+        }
+      ],
+      "shanghai": [
+        {
+          "ipa": "poʔ",
+          "toneValue": "55",
+          "toneCategory": "陰入",
+          "readingLayer": "常读",
+          "sourcePointId": "A004",
+          "sourceLabel": "吴语·上海宝山霜草墩",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A004"
+        }
+      ],
+      "suzhou": [
+        {
+          "ipa": "poʔ",
+          "toneValue": "4",
+          "toneCategory": "陰入",
+          "readingLayer": "常读",
+          "sourcePointId": "A030",
+          "sourceLabel": "吴语·江苏苏州一",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A030"
+        }
+      ],
+      "jinan": [
+        {
+          "ipa": "pɤ",
+          "toneValue": "213",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "sourcePointId": "A100",
+          "sourceLabel": "冀鲁官话·山东济南",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A100"
+        }
+      ]
+    },
+    "彌": {
+      "suzhou": [
+        {
+          "ipa": "mi",
+          "toneValue": "24",
+          "toneCategory": "陽平",
+          "readingLayer": "常读",
+          "sourcePointId": "A030",
+          "sourceLabel": "吴语·江苏苏州一",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A030"
+        }
+      ],
+      "beijing": [
+        {
+          "ipa": "mi",
+          "toneValue": "35",
+          "toneCategory": "陽平",
+          "readingLayer": "常读",
+          "sourcePointId": "A069",
+          "sourceLabel": "燕京官话·北京北京市区",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A069"
+        }
+      ],
+      "jinan": [
+        {
+          "ipa": "mi",
+          "toneValue": "42",
+          "toneCategory": "陽平",
+          "readingLayer": "常读",
+          "sourcePointId": "A100",
+          "sourceLabel": "冀鲁官话·山东济南",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A100"
+        }
+      ],
+      "guangzhou": [
+        {
+          "ipa": "nei",
+          "toneValue": "21",
+          "toneCategory": "陽平",
+          "readingLayer": "常读",
+          "sourcePointId": "A260",
+          "sourceLabel": "粤语·广东广州",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A260"
+        }
+      ]
+    },
+    "避": {
+      "beijing": [
+        {
+          "ipa": "pei",
+          "toneValue": "51",
+          "toneCategory": "去",
+          "readingLayer": "常读",
+          "note": "異讀[p][ei/i][51]",
+          "sourcePointId": "A069",
+          "sourceLabel": "燕京官话·北京北京市区",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A069"
+        },
+        {
+          "ipa": "pi",
+          "toneValue": "51",
+          "toneCategory": "去",
+          "readingLayer": "常读",
+          "note": "異讀[p][ei/i][51]",
+          "sourcePointId": "A069",
+          "sourceLabel": "燕京官话·北京北京市区",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A069"
+        }
+      ],
+      "jinan": [
+        {
+          "ipa": "pi",
+          "toneValue": "21",
+          "toneCategory": "去",
+          "readingLayer": "常读",
+          "sourcePointId": "A100",
+          "sourceLabel": "冀鲁官话·山东济南",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A100"
+        }
+      ],
+      "guangzhou": [
+        {
+          "ipa": "pei",
+          "toneValue": "22",
+          "toneCategory": "陽去",
+          "readingLayer": "常读",
+          "sourcePointId": "A260",
+          "sourceLabel": "粤语·广东广州",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A260"
+        }
+      ],
+      "shanghai": [
+        {
+          "ipa": "bi",
+          "toneValue": "213",
+          "toneCategory": "陽去",
+          "readingLayer": "常读",
+          "sourcePointId": "A004",
+          "sourceLabel": "吴语·上海宝山霜草墩",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A004"
+        }
+      ],
+      "suzhou": [
+        {
+          "ipa": "bi",
+          "toneValue": "31",
+          "toneCategory": "陽去",
+          "readingLayer": "常读",
+          "sourcePointId": "A030",
+          "sourceLabel": "吴语·江苏苏州一",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A030"
+        }
+      ]
+    },
+    "鋪": {
+      "fuzhou": [
+        {
+          "ipa": "phuo",
+          "toneValue": "55",
+          "readingLayer": "常读",
+          "sourcePointId": "Y0565",
+          "sourceLabel": "闽语·福州鼓楼",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=Y0565"
+        }
+      ]
+    },
+    "模": {
+      "shanghai": [
+        {
+          "ipa": "mu",
+          "toneValue": "231",
+          "toneCategory": "陽平",
+          "readingLayer": "常读",
+          "sourcePointId": "A004",
+          "sourceLabel": "吴语·上海宝山霜草墩",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A004"
+        }
+      ],
+      "beijing": [
+        {
+          "ipa": "mo",
+          "toneValue": "35",
+          "toneCategory": "陽平",
+          "readingLayer": "常读",
+          "note": "異讀[m][u/o][35]",
+          "sourcePointId": "A069",
+          "sourceLabel": "燕京官话·北京北京市区",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A069"
+        },
+        {
+          "ipa": "mu",
+          "toneValue": "35",
+          "toneCategory": "陽平",
+          "readingLayer": "常读",
+          "note": "異讀[m][u/o][35]",
+          "sourcePointId": "A069",
+          "sourceLabel": "燕京官话·北京北京市区",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A069"
+        }
+      ],
+      "suzhou": [
+        {
+          "ipa": "mo",
+          "toneValue": "24",
+          "toneCategory": "陽平",
+          "readingLayer": "常读",
+          "sourcePointId": "A030",
+          "sourceLabel": "吴语·江苏苏州一",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A030"
+        }
+      ],
+      "guangzhou": [
+        {
+          "ipa": "mou",
+          "toneValue": "21",
+          "toneCategory": "陽平",
+          "readingLayer": "常读",
+          "sourcePointId": "A260",
+          "sourceLabel": "粤语·广东广州",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A260"
+        }
+      ],
+      "jinan": [
+        {
+          "ipa": "mɤ",
+          "toneValue": "42",
+          "toneCategory": "陽平",
+          "readingLayer": "常读",
+          "note": "異讀[m][ɤ][55/42]",
+          "sourcePointId": "A100",
+          "sourceLabel": "冀鲁官话·山东济南",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A100"
+        },
+        {
+          "ipa": "mɤ",
+          "toneValue": "55",
+          "toneCategory": "上",
+          "readingLayer": "常读",
+          "note": "異讀[m][ɤ][55/42]",
+          "sourcePointId": "A100",
+          "sourceLabel": "冀鲁官话·山东济南",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A100"
+        }
+      ]
+    },
+    "奴": {
+      "beijing": [
+        {
+          "ipa": "nu",
+          "toneValue": "35",
+          "toneCategory": "陽平",
+          "readingLayer": "常读",
+          "sourcePointId": "A069",
+          "sourceLabel": "燕京官话·北京北京市区",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A069"
+        }
+      ],
+      "jinan": [
+        {
+          "ipa": "nu",
+          "toneValue": "42",
+          "toneCategory": "陽平",
+          "readingLayer": "常读",
+          "sourcePointId": "A100",
+          "sourceLabel": "冀鲁官话·山东济南",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A100"
+        }
+      ],
+      "fuzhou": [
+        {
+          "ipa": "nu",
+          "toneValue": "52",
+          "readingLayer": "常读",
+          "sourcePointId": "Y0565",
+          "sourceLabel": "闽语·福州鼓楼",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=Y0565"
+        }
+      ],
+      "guangzhou": [
+        {
+          "ipa": "nou",
+          "toneValue": "21",
+          "toneCategory": "陽平",
+          "readingLayer": "常读",
+          "sourcePointId": "A260",
+          "sourceLabel": "粤语·广东广州",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A260"
+        }
+      ],
+      "shanghai": [
+        {
+          "ipa": "nəu",
+          "toneValue": "231",
+          "toneCategory": "陽平",
+          "readingLayer": "常读",
+          "sourcePointId": "A004",
+          "sourceLabel": "吴语·上海宝山霜草墩",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A004"
+        }
+      ],
+      "suzhou": [
+        {
+          "ipa": "nəu",
+          "toneValue": "24",
+          "toneCategory": "陽去",
+          "readingLayer": "常读",
+          "note": "異讀[n][əu][24/31]正，舊",
+          "sourcePointId": "A030",
+          "sourceLabel": "吴语·江苏苏州一",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A030"
+        },
+        {
+          "ipa": "nəu",
+          "toneValue": "31",
+          "toneCategory": "陽平",
+          "readingLayer": "常读",
+          "note": "異讀[n][əu][24/31]正，舊",
+          "sourcePointId": "A030",
+          "sourceLabel": "吴语·江苏苏州一",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A030"
+        }
+      ]
+    },
+    "補": {
+      "shanghai": [
+        {
+          "ipa": "pu",
+          "toneValue": "434",
+          "toneCategory": "陰上",
+          "readingLayer": "常读",
+          "sourcePointId": "A004",
+          "sourceLabel": "吴语·上海宝山霜草墩",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A004"
+        }
+      ],
+      "suzhou": [
+        {
+          "ipa": "pu",
+          "toneValue": "52",
+          "toneCategory": "上",
+          "readingLayer": "常读",
+          "sourcePointId": "A030",
+          "sourceLabel": "吴语·江苏苏州一",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A030"
+        }
+      ],
+      "beijing": [
+        {
+          "ipa": "pu",
+          "toneValue": "214",
+          "toneCategory": "上",
+          "readingLayer": "常读",
+          "sourcePointId": "A069",
+          "sourceLabel": "燕京官话·北京北京市区",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A069"
+        }
+      ],
+      "jinan": [
+        {
+          "ipa": "pu",
+          "toneValue": "55",
+          "toneCategory": "上",
+          "readingLayer": "常读",
+          "sourcePointId": "A100",
+          "sourceLabel": "冀鲁官话·山东济南",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A100"
+        }
+      ],
+      "guangzhou": [
+        {
+          "ipa": "pou",
+          "toneValue": "35",
+          "toneCategory": "陰上",
+          "readingLayer": "常读",
+          "sourcePointId": "A260",
+          "sourceLabel": "粤语·广东广州",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A260"
+        }
+      ]
+    },
+    "古": {
+      "beijing": [
+        {
+          "ipa": "ku",
+          "toneValue": "214",
+          "toneCategory": "上",
+          "readingLayer": "常读",
+          "sourcePointId": "A069",
+          "sourceLabel": "燕京官话·北京北京市区",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A069"
+        }
+      ],
+      "jinan": [
+        {
+          "ipa": "ku",
+          "toneValue": "55",
+          "toneCategory": "上",
+          "readingLayer": "常读",
+          "sourcePointId": "A100",
+          "sourceLabel": "冀鲁官话·山东济南",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A100"
+        }
+      ],
+      "guangzhou": [
+        {
+          "ipa": "ku",
+          "toneValue": "35",
+          "toneCategory": "陰上",
+          "readingLayer": "常读",
+          "sourcePointId": "A260",
+          "sourceLabel": "粤语·广东广州",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A260"
+        }
+      ],
+      "fuzhou": [
+        {
+          "ipa": "ku",
+          "toneValue": "33",
+          "readingLayer": "常读",
+          "sourcePointId": "Y0565",
+          "sourceLabel": "闽语·福州鼓楼",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=Y0565"
+        }
+      ],
+      "shanghai": [
+        {
+          "ipa": "kəu",
+          "toneValue": "434",
+          "toneCategory": "陰上",
+          "readingLayer": "常读",
+          "sourcePointId": "A004",
+          "sourceLabel": "吴语·上海宝山霜草墩",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A004"
+        }
+      ],
+      "suzhou": [
+        {
+          "ipa": "kəu",
+          "toneValue": "52",
+          "toneCategory": "上",
+          "readingLayer": "常读",
+          "sourcePointId": "A030",
+          "sourceLabel": "吴语·江苏苏州一",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A030"
+        }
+      ]
+    },
+    "故": {
+      "beijing": [
+        {
+          "ipa": "ku",
+          "toneValue": "51",
+          "toneCategory": "去",
+          "readingLayer": "常读",
+          "sourcePointId": "A069",
+          "sourceLabel": "燕京官话·北京北京市区",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A069"
+        }
+      ],
+      "jinan": [
+        {
+          "ipa": "ku",
+          "toneValue": "21",
+          "toneCategory": "去",
+          "readingLayer": "常读",
+          "sourcePointId": "A100",
+          "sourceLabel": "冀鲁官话·山东济南",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A100"
+        }
+      ],
+      "guangzhou": [
+        {
+          "ipa": "ku",
+          "toneValue": "33",
+          "toneCategory": "陰去",
+          "readingLayer": "常读",
+          "sourcePointId": "A260",
+          "sourceLabel": "粤语·广东广州",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A260"
+        }
+      ],
+      "suzhou": [
+        {
+          "ipa": "kəu",
+          "toneValue": "412",
+          "toneCategory": "陰去",
+          "readingLayer": "常读",
+          "sourcePointId": "A030",
+          "sourceLabel": "吴语·江苏苏州一",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A030"
+        }
+      ]
+    },
+    "堪": {
+      "beijing": [
+        {
+          "ipa": "khan",
+          "toneValue": "55",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "sourcePointId": "A069",
+          "sourceLabel": "燕京官话·北京北京市区",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A069"
+        }
+      ],
+      "guangzhou": [
+        {
+          "ipa": "hɐm",
+          "toneValue": "53",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "sourcePointId": "A260",
+          "sourceLabel": "粤语·广东广州",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A260"
+        }
+      ],
+      "jinan": [
+        {
+          "ipa": "khæ~",
+          "toneValue": "213",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "sourcePointId": "A100",
+          "sourceLabel": "冀鲁官话·山东济南",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A100"
+        }
+      ],
+      "suzhou": [
+        {
+          "ipa": "khø",
+          "toneValue": "44",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "sourcePointId": "A030",
+          "sourceLabel": "吴语·江苏苏州一",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A030"
+        }
+      ],
+      "shanghai": [
+        {
+          "ipa": "khᴇ",
+          "toneValue": "52",
+          "toneCategory": "陰平",
+          "readingLayer": "常读",
+          "sourcePointId": "A004",
+          "sourceLabel": "吴语·上海宝山霜草墩",
+          "sourceUrl": "http://www.kaom.net/si_x8.php?c=A004"
+        }
+      ]
+    }
+  }
+}
