@@ -15,7 +15,7 @@ interface InterfaceState {
 }
 
 export const useInterfaceStore = create<InterfaceState>((set) => ({
-  selectedSlotId: 'C001',
+  selectedSlotId: '',
   detailOpen: false,
   detailTab: 'position',
   cellDensity: 'comfortable',

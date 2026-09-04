@@ -9,7 +9,7 @@ import {
   X,
 } from '@phosphor-icons/react'
 import type { Layer, LayerPayload, PhonologySlot } from '../domain'
-import { fetchLayerData, initialById, kaomMetadata, layers, rowById } from '../data'
+import { fetchLayerData, initialById, kaomMetadata, layers, qieyunMetadata, rowById } from '../data'
 import { useInterfaceStore, type DetailTab } from '../store'
 import { ToneContour } from './ToneContour'
 
@@ -151,9 +151,13 @@ export function SlotDetail({ slot, activeLayer, activePayload, open }: SlotDetai
                 <div><dt>摄</dt><dd>{row.she}</dd></div>
                 <div><dt>韵</dt><dd>{row.rhyme}</dd></div>
                 <div><dt>等</dt><dd>{row.grade}等</dd></div>
-                <div><dt>呼</dt><dd>{row.openness}口</dd></div>
+                <div><dt>呼</dt><dd>{row.openness === '中立' ? '开合中立' : `${row.openness}口`}</dd></div>
+                <div><dt>类</dt><dd>{row.rhymeClass ? `${row.rhymeClass}类` : '不分'}</dd></div>
                 <div><dt>重纽</dt><dd>{row.chongniu ?? '不适用'}</dd></div>
                 <div><dt>调</dt><dd>{row.tone}</dd></div>
+                <div><dt>反切</dt><dd>{slot.fanqie?.join('、') || '原书未注'}</dd></div>
+                <div><dt>编码</dt><dd>{slot.qieyunCode}</dd></div>
+                <div><dt>小韵</dt><dd>{slot.sourceIds?.join('、')}</dd></div>
               </dl>
             </section>
 
@@ -164,10 +168,10 @@ export function SlotDetail({ slot, activeLayer, activePayload, open }: SlotDetai
                 <span>{slot.reconstruction.system}</span>
               </div>
               <div className="segment-strip" aria-label="拟音音段分解">
-                <div><span>声母</span><strong className="ipa">{slot.reconstruction.initial || '∅'}</strong></div>
-                <div><span>介音</span><strong className="ipa">{slot.reconstruction.medial || '∅'}</strong></div>
-                <div><span>韵核</span><strong className="ipa">{slot.reconstruction.nucleus || '∅'}</strong></div>
-                <div><span>韵尾</span><strong className="ipa">{slot.reconstruction.coda || '∅'}</strong></div>
+                <div><span>声母</span><strong className="ipa">{slot.reconstruction.initial || '未分解'}</strong></div>
+                <div><span>介音</span><strong className="ipa">{slot.reconstruction.medial || '未分解'}</strong></div>
+                <div><span>韵核</span><strong className="ipa">{slot.reconstruction.nucleus || '未分解'}</strong></div>
+                <div><span>韵尾</span><strong className="ipa">{slot.reconstruction.coda || '未分解'}</strong></div>
               </div>
               <div className="full-reconstruction">
                 <span>完整拟音</span>
@@ -185,7 +189,13 @@ export function SlotDetail({ slot, activeLayer, activePayload, open }: SlotDetai
                   <span key={character} className={index === 0 ? 'is-representative' : ''}>{character}</span>
                 ))}
               </div>
-              <p className="detail-note">{slot.note}</p>
+              {slot.note && <p className="detail-note">{slot.note}</p>}
+              <div className="source-record">
+                <span>中古资料来源</span>
+                <strong>{slot.source}</strong>
+                <small>音韵地位与字表由 TshetUinh.js 内置《广韵》资料生成，拟音采用潘悟云 2023 方案。</small>
+                <a href={qieyunMetadata.sourceUrl} target="_blank" rel="noreferrer">查看 TshetUinh.js</a>
+              </div>
             </section>
           </div>
         )}
@@ -221,7 +231,11 @@ export function SlotDetail({ slot, activeLayer, activePayload, open }: SlotDetai
                       <b>{layer.shortLabel}</b>
                       <small>{reflex.readingLayer}</small>
                     </span>
-                    <span role="cell" className="ipa">[{reflex.ipa}]</span>
+                    <span role="cell" className="ipa">
+                      {layer.kind === 'japanese'
+                        ? reflex.historicalForm ?? reflex.romaji ?? '未标'
+                        : `[${reflex.ipa ?? '未标'}]`}
+                    </span>
                     <span role="cell">
                       {layer.kind === 'japanese'
                         ? `${reflex.kana ?? ''} ${reflex.romaji ?? ''}`
@@ -266,7 +280,13 @@ export function SlotDetail({ slot, activeLayer, activePayload, open }: SlotDetai
               <div className="chain-node is-current">
                 <span>{activeLayer.kind === 'middle-chinese' ? '音段条件' : '现代反射'}</span>
                 <strong className="ipa">
-                  {activeLayer.kind === 'middle-chinese' ? slot.conditions.join(' · ') : activeReflex ? `[${activeReflex.ipa}]` : '未收'}
+                  {activeLayer.kind === 'middle-chinese'
+                    ? slot.conditions.join(' · ')
+                    : activeReflex
+                      ? activeLayer.kind === 'japanese'
+                        ? activeReflex.kana ?? activeReflex.historicalForm ?? activeReflex.romaji ?? '未标'
+                        : `[${activeReflex.ipa ?? '未标'}]`
+                      : '未收'}
                 </strong>
                 <small>
                   {activeLayer.kind === 'dialect' && activeReflex
@@ -297,7 +317,7 @@ export function SlotDetail({ slot, activeLayer, activePayload, open }: SlotDetai
                 {activeReflexes.map((reflex, index) => (
                   <div key={`${reflex.readingLayer}-${index}`}>
                     <span>{reflex.readingLayer}</span>
-                    <strong className="ipa">[{reflex.ipa}]</strong>
+                    <strong className="ipa">[{reflex.ipa ?? reflex.historicalForm ?? '未标'}]</strong>
                     <span>{[reflex.toneCategory, reflex.toneValue].filter(Boolean).join(' · ') || '调值未标'}</span>
                     <small>{reflex.sourceNote ?? reflex.sandhiCondition ?? '单字音'}</small>
                   </div>
@@ -325,8 +345,8 @@ export function SlotDetail({ slot, activeLayer, activePayload, open }: SlotDetai
             {!activeReflex && activeLayer.kind !== 'middle-chinese' && (
               <p className="detail-note">
                 {activeLayer.kind === 'dialect'
-                  ? '古音小镜目标语言点未收录这个代表字，矩阵格位保持原位。'
-                  : '当前日语示例层尚未收录这个格位，矩阵骨架仍保持原位。'}
+                  ? '当前来源未收录这个代表字，矩阵格位保持原位。'
+                  : '古音小镜《漢字源》第五版查询未收录这个格位。'}
               </p>
             )}
           </section>
@@ -335,12 +355,14 @@ export function SlotDetail({ slot, activeLayer, activePayload, open }: SlotDetai
 
       <footer className="detail-footer">
         <span>资料状态</span>
-        {activeLayer.kind === 'dialect' ? (
-          <a href={activeReflex?.sourceUrl ?? kaomMetadata.sourceUrl} target="_blank" rel="noreferrer">
-            古音小镜 · {activeReflex?.sourcePointId ?? '本格位未收'}
+        {activeLayer.kind === 'middle-chinese' ? (
+          <a href={qieyunMetadata.sourceUrl} target="_blank" rel="noreferrer">
+            《广韵》· TshetUinh.js {qieyunMetadata.sourceVersion}
           </a>
         ) : (
-          <strong>界面示例 · 未经校勘</strong>
+          <a href={activeReflex?.sourceUrl ?? kaomMetadata.sourceUrl} target="_blank" rel="noreferrer">
+            {activeReflex?.sourcePointId ?? '来源未收'}
+          </a>
         )}
       </footer>
       </aside>

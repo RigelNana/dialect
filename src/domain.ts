@@ -1,6 +1,6 @@
 export type Tone = '平' | '上' | '去' | '入'
-export type Openness = '开' | '合'
-export type Grade = 1 | 2 | 3 | 4
+export type Openness = '開' | '合' | '中立'
+export type Grade = '一' | '二' | '三' | '四'
 export type LayerKind = 'middle-chinese' | 'dialect' | 'japanese'
 export type ReadingLayer =
   | '常读'
@@ -25,8 +25,10 @@ export interface MatrixRow {
   id: string
   she: string
   rhyme: string
+  rhymeGroupId: string
   grade: Grade
   openness: Openness
+  rhymeClass?: string
   chongniu?: 'A' | 'B'
   tone: Tone
 }
@@ -49,6 +51,10 @@ export interface PhonologySlot {
   reconstruction: Reconstruction
   conditions: string[]
   note?: string
+  qieyunCode?: string
+  fanqie?: string[]
+  source?: string
+  sourceIds?: string[]
 }
 
 export interface Reflex {
@@ -59,7 +65,7 @@ export interface Reflex {
   medial?: string
   nucleus?: string
   coda?: string
-  ipa: string
+  ipa?: string
   historicalTone: string
   toneCategory?: string
   toneValue?: string

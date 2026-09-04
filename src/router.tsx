@@ -1,12 +1,11 @@
 import { createRootRoute, createRoute, createRouter, Outlet } from '@tanstack/react-router'
 import { App } from './App'
 
-export type RhymeGroupFilter = 'all' | 'tong' | 'jiang' | 'zhi' | 'yu' | 'xian'
 export type ToneFilter = 'all' | 'level' | 'rising' | 'departing' | 'entering'
 
 export interface MatrixSearch {
   layer: string
-  rhymeGroup: RhymeGroupFilter
+  rhymeGroup: string
   tone: ToneFilter
   search: string
 }
@@ -21,9 +20,7 @@ const indexRoute = createRoute({
   path: '/',
   validateSearch: (search: Record<string, unknown>): MatrixSearch => ({
     layer: typeof search.layer === 'string' ? search.layer : 'middle-chinese',
-    rhymeGroup: typeof search.rhymeGroup === 'string' && ['all', 'tong', 'jiang', 'zhi', 'yu', 'xian'].includes(search.rhymeGroup)
-      ? search.rhymeGroup as RhymeGroupFilter
-      : 'all',
+    rhymeGroup: typeof search.rhymeGroup === 'string' ? search.rhymeGroup : 'all',
     tone: typeof search.tone === 'string' && ['all', 'level', 'rising', 'departing', 'entering'].includes(search.tone)
       ? search.tone as ToneFilter
       : 'all',

@@ -114,7 +114,7 @@ Its visual thesis is stable coordinates with replaceable registration layers. Ch
 - Ink-first data with mineral blue reserved for active, selected, aligned, and focused states.
 - Hairline rules, square data cells, and restrained control radii instead of detached dashboard cards.
 - A compact bilingual hierarchy built for repeated scholarly scanning.
-- Persistent provenance language distinguishes sourced 古音小镜 dialect records from still-illustrative Middle Chinese and Sino-Japanese content.
+- Persistent provenance language distinguishes the complete TshetUinh.js 《广韵》 skeleton, zi.tools dialect snapshots, and 古音小镜 Sino-Japanese records.
 
 ## Colors
 
@@ -143,7 +143,7 @@ The palette is a cool paper-and-ink system with one mineral-blue state family; t
 
 **The Blue-Is-State Rule.** Mineral blue marks a current layer, aligned record, control focus, or plotted relationship; selected matrix cells use neutral paper and ink.
 
-**The Honest-Provenance Rule.** Sourced dialect records expose the 古音小镜 point ID and URL plus its automatic-segmentation warning. Illustrative Middle Chinese and Sino-Japanese values retain their unreviewed labels.
+**The Honest-Provenance Rule.** Middle Chinese positions link to TshetUinh.js and identify the Pan Wuyun reconstruction scheme. Dialect and Sino-Japanese records expose their external row ID and URL; source omissions remain “未收” instead of receiving generated filler.
 
 ## Typography
 
@@ -172,7 +172,7 @@ The palette is a cool paper-and-ink system with one mineral-blue state family; t
 
 The desktop shell fills `100dvh`, hides document overflow, and stacks five fixed bands above the research plane: 24px provenance, 68px header, 98px layer workbench, 54px toolbar, then the remaining full-width matrix. Slot details are removed from the matrix flow and open in a centered modal up to 1120px wide and 760px high.
 
-The matrix itself is deliberately wider than the viewport. On desktop, five sticky Y-coordinate columns use 64px, 58px, 44px, 44px, and 44px widths for a 254px frozen region; each Middle Chinese initial column is 110px. At 680px and below, the frozen coordinates contract to 44px, 40px, 30px, 30px, and 34px for a 178px region, leaving 212px of a 390px viewport for reflex data. CSS custom properties keep grid tracks, sticky offsets, and selected-column reveal in lockstep. The 34px superheader and 60px initial header remain sticky while the full plane scrolls in both directions. Rows switch between 76px comfortable and 58px compact density without changing coordinates.
+The matrix contains all 38 TshetUinh.js initials and 566 distinct Y-axis condition rows covering 3,804 attested 《广韵》 phonological positions. Invalid initial/rhyme combinations remain structural voids. Five sticky Y-coordinate columns use 64px, 58px, 44px, 44px, and 44px widths for a 254px desktop region; at 680px and below they contract to 44px, 40px, 30px, 30px, and 34px. Rhyme-group filter options are generated from all 16 attested 攝 values. CSS custom properties keep tracks, sticky offsets, and selected-column reveal aligned.
 
 At 900px and below, the matrix still takes the full research width while the detail modal keeps 16px viewport gutters. At 680px and below, the shell bands compress to 21px, 104px, 84px, and 50px; the header becomes two rows, the search spans the full second row, action labels and nonessential legends hide, and details become an edge-to-edge `100dvh` modal page. The matrix dimensions and horizontal scrolling are retained rather than converted to cards or stripped of axes.
 
@@ -229,7 +229,7 @@ Borders are structural rather than ornamental: regular rules divide cells, stron
 - Opening the modal moves focus to Close; Tab and Shift+Tab cycle within it, Escape closes it, and focus returns to the invoking cell or control. Closed modal content uses `display: none` and cannot receive pointer or keyboard interaction.
 - The header aligns slot ID/status, a 52px square representative-character tile, enlarged IPA, and category summary. Three equal tabs share rules; active state uses darker type plus a 2px mineral registration line, not a filled pill.
 - The position tab uses a two-column evidence layout on wide screens and a linear layout below 900px. Detail content remains organized as ruled definition grids, four-part segment strips, reflex tables, and a linear development chain. Comparison rows render every reflex rather than silently selecting the first: reading layer, IPA, kana/romaji or tone category/value, and sandhi condition remain visible.
-- The modal always ends with a provenance footer. Dialect records link to their exact 古音小镜 language point; illustrative layers retain the unreviewed-data warning.
+- The modal always ends with a provenance footer. Middle Chinese positions link to TshetUinh.js; dialect rows link to zi.tools; Sino-Japanese records link to 古音小镜. Missing source records remain explicitly uncollected.
 
 ### Tone Contour
 - The full plot is 116px by 70px; its compact in-cell form renders at 32px by 19px from a 44px by 26px view box.
@@ -248,7 +248,7 @@ Borders are structural rather than ornamental: regular rules divide cells, stron
 - **Do** use mineral blue only for active, selected, aligned, focused, or plotted relationships.
 - **Do** use one-pixel rules and paper-tone shifts to group dense information before considering elevation.
 - **Do** keep serif CJK characters, IPA forms, slot IDs, reading layers, tone categories, tone values, and sandhi conditions visually distinct and separately legible.
-- **Do** distinguish sourced dialect records, illustrative reconstructions, uncollected readings, and third-party rights cautions explicitly.
+- **Do** distinguish library-generated Qieyun positions, external reflex snapshots, structurally invalid combinations, and source omissions explicitly.
 - **Do** preserve semantic grid/table roles, accessible names, selected-cell reveal, focus containment/restoration, visible focus, and reduced-motion behavior when extending components.
 
 ### Don't:
@@ -256,5 +256,5 @@ Borders are structural rather than ornamental: regular rules divide cells, stron
 - **Don't** use gradients, glass blur, glow borders, pill controls, or large soft shadows; they contradict the shipped archival material.
 - **Don't** use mineral blue as a broad decorative background or introduce a second competing accent family.
 - **Don't** collapse the mobile matrix into cards or hide phonological dimensions; keep the full scrollable coordinate plane and open details in the separate modal page.
-- **Don't** present illustrative values as cited scholarship, discard alternate reflex rows, strip 古音小镜 point attribution, or suppress the source site’s automatic-segmentation warning.
+- **Don't** invent values for invalid initial/rhyme combinations or missing external records, discard alternate reflex rows, or strip source identifiers and attribution.
 - **Don't** enlarge every label to consumer-app proportions; preserve the compact hierarchy while maintaining focus, contrast, and zoom legibility.

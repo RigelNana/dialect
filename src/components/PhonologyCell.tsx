@@ -18,12 +18,13 @@ export function PhonologyCell({ slot, layer, reflexes = [], selected, compact, o
   const toneLabel = primary
     ? [primary.toneCategory, primary.toneValue].filter(Boolean).join(' · ') || '调值未标'
     : ''
+  const reflexReading = primary?.ipa ?? primary?.historicalForm ?? primary?.romaji ?? ''
   const accessibleValue = isMiddleChinese
     ? `${slot.reconstruction.ipa}，${slot.conditions.at(-1)}`
     : primary
       ? isJapanese
-        ? `${primary.kana ?? ''}，${primary.ipa}`
-        : `${primary.ipa}，${primary.toneCategory ?? ''}${primary.toneValue ?? ''}`
+        ? `${primary.kana ?? primary.romaji ?? primary.historicalForm ?? ''}，${primary.historicalForm ?? primary.ipa ?? ''}`
+        : `${reflexReading}，${primary.toneCategory ?? ''}${primary.toneValue ?? ''}`
       : '本层暂无反射资料'
 
   return (
@@ -49,12 +50,12 @@ export function PhonologyCell({ slot, layer, reflexes = [], selected, compact, o
       ) : primary ? (
         isJapanese ? (
           <>
-            <span className="cell-reading japanese-reading">{primary.kana}</span>
-            <span className="cell-meta ipa">[{primary.ipa}]</span>
+            <span className="cell-reading japanese-reading">{primary.kana ?? primary.romaji ?? primary.historicalForm}</span>
+            <span className="cell-meta ipa">{primary.historicalForm ?? (primary.ipa ? `[${primary.ipa}]` : '来源记音')}</span>
           </>
         ) : (
           <>
-            <span className="cell-reading ipa">[{primary.ipa}]</span>
+            <span className="cell-reading ipa">[{reflexReading}]</span>
             <span className="cell-meta cell-tone">
               <span>{toneLabel}</span>
               {!compact && /^[1-5]+$/u.test(primary.toneValue ?? '') && <ToneContour value={primary.toneValue} compact />}

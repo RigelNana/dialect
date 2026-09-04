@@ -8,7 +8,7 @@ import {
   Rows,
   SquaresFour,
 } from '@phosphor-icons/react'
-import { fetchLayerData, findSlot, kaomMetadata, layers, rows, slotById, slots } from './data'
+import { fetchLayerData, findSlot, kaomMetadata, layers, qieyunMetadata, rows, slotById, slots } from './data'
 import { PhonologyMatrix } from './components/PhonologyMatrix'
 import { FilterMenu } from './components/FilterMenu'
 import { SlotDetail } from './components/SlotDetail'
@@ -16,12 +16,8 @@ import { useInterfaceStore } from './store'
 
 const rhymeGroupOptions = [
   { value: 'all', label: '全部' },
-  { value: 'tong', label: '通' },
-  { value: 'jiang', label: '江' },
-  { value: 'zhi', label: '止' },
-  { value: 'yu', label: '遇' },
-  { value: 'xian', label: '咸' },
-] as const
+  ...Array.from(new Map(rows.map((row) => [row.rhymeGroupId, row.she])).entries(), ([value, label]) => ({ value, label })),
+]
 const toneOptions = [
   { value: 'all', label: '全部' },
   { value: 'level', label: '平' },
@@ -29,14 +25,6 @@ const toneOptions = [
   { value: 'departing', label: '去' },
   { value: 'entering', label: '入' },
 ] as const
-const rhymeGroupLabels: Record<string, string | undefined> = {
-  all: undefined,
-  tong: '通',
-  jiang: '江',
-  zhi: '止',
-  yu: '遇',
-  xian: '咸',
-}
 const toneLabels: Record<string, string | undefined> = {
   all: undefined,
   level: '平',
@@ -69,9 +57,9 @@ export function App() {
     : 0
 
   const visibleRows = useMemo(() => rows.filter((row) => {
-    const selectedRhymeGroup = rhymeGroupLabels[search.rhymeGroup]
+    const selectedRhymeGroup = search.rhymeGroup === 'all' ? undefined : search.rhymeGroup
     const selectedTone = toneLabels[search.tone]
-    const matchesRhymeGroup = !selectedRhymeGroup || row.she === selectedRhymeGroup
+    const matchesRhymeGroup = !selectedRhymeGroup || row.rhymeGroupId === selectedRhymeGroup
     const matchesTone = !selectedTone || row.tone === selectedTone
     return matchesRhymeGroup && matchesTone
   }), [search.rhymeGroup, search.tone])
@@ -99,13 +87,15 @@ export function App() {
   return (
     <main className="app-shell">
       <div className="provenance-bar">
-        <span>{activeLayer.kind === 'dialect' ? 'SOURCED REFLEXES' : 'INTERFACE PREVIEW'}</span>
+        <span>SOURCED DATA</span>
         <strong>
-          {activeLayer.kind === 'dialect'
-            ? `方言读音据古音小镜指定语言点；原站提示自动切分未经校对`
-            : '中古拟音与日语层仍为界面示例，未经校勘'}
+          {activeLayer.kind === 'middle-chinese'
+            ? `《廣韻》格位据 TshetUinh.js；拟音为潘悟云 2023`
+            : activeLayer.kind === 'dialect'
+              ? '方言读音据古音小镜与 zi.tools；原始记录保留来源'
+              : '吴音、汉音、唐音据古音小镜；原站标注来源《漢字源》第五版'}
         </strong>
-        <span>{activeLayer.kind === 'dialect' ? `KAOM ${kaomMetadata.importedRecords}` : 'SCHEMA 0.1'}</span>
+        <span>{activeLayer.kind === 'middle-chinese' ? `QY ${qieyunMetadata.positions}` : `REFLEX ${kaomMetadata.importedRecords}`}</span>
       </div>
       <header className="app-header">
         <div className="brand-lockup" aria-label="音格 中古音韵反射矩阵">
@@ -197,7 +187,7 @@ export function App() {
         <div className="matrix-summary" aria-live="polite">
           {searchMessage && <span className="search-message">{searchMessage}</span>}
           <span><b>{visibleRows.length}</b> 韵类行</span>
-          <span><b>{activeLayer.kind === 'dialect' ? activeRecordCount : slots.length}</b> {activeLayer.kind === 'dialect' ? '本层实录' : '格位'}</span>
+          <span><b>{activeLayer.kind === 'middle-chinese' ? slots.length : activeRecordCount}</b> {activeLayer.kind === 'middle-chinese' ? '格位' : '本层记录'}</span>
           <div className="density-control" aria-label="单元格密度">
             <button
               type="button"

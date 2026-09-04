@@ -91,7 +91,7 @@ export function PhonologyMatrix({ rows: visibleRows, layer, payload, selectedSlo
           <div className="axis-title">
             <span>中古声母</span>
             <span className="axis-rule" />
-            <span>{initials.length} 组示例</span>
+            <span>{initials.length} 声母</span>
           </div>
         </div>
 
@@ -140,14 +140,14 @@ export function PhonologyMatrix({ rows: visibleRows, layer, payload, selectedSlo
                   <span>{row.rhyme}</span>
                   <small>韵</small>
                 </div>
-                <div role="rowheader" className="matrix-coordinate sticky-coordinate coordinate-2"><span>{row.grade}</span><small>等</small></div>
-                <div role="rowheader" className="matrix-coordinate sticky-coordinate coordinate-3"><span>{row.openness}</span><small>口</small></div>
+                <div role="rowheader" className="matrix-coordinate sticky-coordinate coordinate-2"><span>{row.grade}</span><small>{row.rhymeClass ? `${row.rhymeClass}类` : '等'}</small></div>
+                <div role="rowheader" className="matrix-coordinate sticky-coordinate coordinate-3"><span>{row.openness}</span><small>呼</small></div>
                 <div role="rowheader" className={`matrix-coordinate sticky-coordinate coordinate-4 tone-${row.tone}`}><span>{row.tone}</span><small>声</small></div>
 
                 {initials.map((initial) => {
                   const slot = slotsByCoordinate[`${row.id}:${initial.id}`]
                   if (!slot) {
-                    return <div key={initial.id} role="gridcell" className="matrix-void" aria-label={`${initial.label}母，此行无示例格位`} />
+                    return <div key={initial.id} role="gridcell" className="matrix-void" aria-label={`${initial.label}母，此行无音韵地位`} />
                   }
                   return loading ? (
                     <div key={initial.id} role="gridcell" className="cell-skeleton" aria-label="正在套印反射数据">
