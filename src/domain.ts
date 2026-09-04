@@ -63,6 +63,7 @@ export interface Reflex {
   slotId: string
   layerId: string
   readingLayer: ReadingLayer
+  character?: string
   initial?: string
   medial?: string
   nucleus?: string

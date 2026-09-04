@@ -11,7 +11,7 @@ const ziToolsBaseUrl = 'https://zi.tools'
 const outputDirectory = resolve(projectRoot, 'public/data/layers')
 const requestDelayMs = 500
 const sourceRetryLimit = 3
-const batchSize = 48
+const batchSize = 128
 
 const dialectBooks = ['beijing', 'jinan', 'shanghai', 'suzhou', 'guangzhou', 'xiamen', 'fuzhou']
 const japaneseLayerByLabel = {
@@ -47,11 +47,12 @@ const ziToolsBatchSchema = z.object({
 })
 
 const qieyunData = JSON.parse(await readFile(resolve(projectRoot, 'public/data/qieyun.json'), 'utf8'))
-const allCharacters = Array.from(new Set(qieyunData.slots.map((slot) => slot.representativeCharacter)))
+const representativeCharacters = Array.from(new Set(qieyunData.slots.map((slot) => slot.representativeCharacter)))
+const allCharacters = Array.from(new Set(qieyunData.slots.flatMap((slot) => slot.characters)))
 const dialectLimit = Number.parseInt(process.env.DIALECT_LIMIT ?? '0', 10)
 const japaneseLimit = Number.parseInt(process.env.JAPANESE_LIMIT ?? '70', 10)
 const dialectCharacters = Number.isFinite(dialectLimit) && dialectLimit > 0 ? allCharacters.slice(0, dialectLimit) : allCharacters
-const japaneseCharacters = Number.isFinite(japaneseLimit) && japaneseLimit > 0 ? allCharacters.slice(0, japaneseLimit) : allCharacters
+const japaneseCharacters = Number.isFinite(japaneseLimit) && japaneseLimit > 0 ? representativeCharacters.slice(0, japaneseLimit) : representativeCharacters
 const dialectReadings = {}
 const japaneseReadings = {}
 const importWarnings = []

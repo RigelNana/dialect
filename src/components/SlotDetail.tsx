@@ -245,7 +245,7 @@ export function SlotDetail({ slot, row, initial, qieyunMetadata, activeLayer, ac
                   <div role="row" className="reflex-table-row" key={`${layerId}-${reflex.readingLayer}-${reflexIndex}`}>
                     <span role="cell">
                       <b>{layer.shortLabel}</b>
-                      <small>{reflex.readingLayer}</small>
+                      <small>{reflex.readingLayer}{reflex.character && reflex.character !== slot.representativeCharacter ? ` · 字例${reflex.character}` : ''}</small>
                     </span>
                     <span role="cell" className="ipa">
                       {layer.kind === 'japanese'
@@ -349,7 +349,7 @@ export function SlotDetail({ slot, row, initial, qieyunMetadata, activeLayer, ac
 
             {activeReflex?.sourceUrl && (
               <div className="source-record">
-                <span>资料来源</span>
+                <span>资料来源{activeReflex.character ? ` · 字例${activeReflex.character}` : ''}</span>
                 <strong>{activeReflex.source}</strong>
                 <small>{activeReflex.sourceNote ?? '来源记录未附注'}</small>
                 <a href={activeReflex.sourceUrl} target="_blank" rel="noreferrer">

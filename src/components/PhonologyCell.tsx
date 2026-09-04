@@ -19,12 +19,15 @@ export function PhonologyCell({ slot, layer, reflexes = [], selected, compact, o
     ? [primary.toneCategory, primary.toneValue].filter(Boolean).join(' · ') || '调值未标'
     : ''
   const reflexReading = primary?.ipa ?? primary?.historicalForm ?? primary?.romaji ?? ''
+  const reflexCharacterLabel = primary?.character && primary.character !== slot.representativeCharacter
+    ? `字例${primary.character} · `
+    : ''
   const accessibleValue = isMiddleChinese
     ? `${slot.reconstruction.ipa}，${slot.conditions.at(-1)}`
     : primary
       ? isJapanese
         ? `${primary.kana ?? primary.romaji ?? primary.historicalForm ?? ''}，${primary.historicalForm ?? primary.ipa ?? ''}`
-        : `${reflexReading}，${primary.toneCategory ?? ''}${primary.toneValue ?? ''}`
+        : `${primary.character ? `字例${primary.character}，` : ''}${reflexReading}，${primary.toneCategory ?? ''}${primary.toneValue ?? ''}`
       : '本层暂无反射资料'
 
   return (
@@ -60,7 +63,7 @@ export function PhonologyCell({ slot, layer, reflexes = [], selected, compact, o
           <>
             <span className="cell-reading ipa">[{reflexReading}]</span>
             <span className="cell-meta cell-tone">
-              <span>{toneLabel}</span>
+              <span>{reflexCharacterLabel}{toneLabel}</span>
               {!compact && /^[1-5]+$/u.test(primary.toneValue ?? '') && <ToneContour value={primary.toneValue} compact />}
             </span>
             {hasAlternates && <span className="cell-alternate">+{reflexes.length - 1} 读音</span>}

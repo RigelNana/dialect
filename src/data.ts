@@ -89,7 +89,7 @@ let qieyunRequest: Promise<QieyunPayload> | undefined
 const sourceRequests = new Map<string, Promise<ImportedSourceLayerPayload>>()
 
 async function fetchJson<Data>(filename: string): Promise<Data> {
-  const response = await fetch(`${dataBaseUrl}${filename}`)
+  const response = await fetch(`${dataBaseUrl}${filename}`, { cache: 'no-store' })
   if (!response.ok) throw new Error(`${filename} 加载失败：HTTP ${response.status}`)
   return response.json() as Promise<Data>
 }
@@ -120,13 +120,16 @@ function makeDialectReflexes(
   rowById: Record<string, MatrixRow>,
   initialById: Record<string, Initial>,
 ): Reflex[] {
-  const records = (sourceData.readings[slot.representativeCharacter] ?? []) as ImportedDialectReading[]
+  const sourceCharacter = slot.characters.find((character) => sourceData.readings[character]?.length)
+  if (!sourceCharacter) return []
+  const records = sourceData.readings[sourceCharacter] as ImportedDialectReading[]
   const row = rowById[slot.rowId]
   const initial = initialById[slot.initialId]
   return records.map((record) => ({
     slotId: slot.id,
     layerId,
     readingLayer: record.readingLayer,
+    character: record.sourceCharacter ?? sourceCharacter,
     initial: record.initial,
     medial: record.medial,
     nucleus: record.nucleus,
