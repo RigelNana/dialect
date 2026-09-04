@@ -29,6 +29,7 @@ const routeTree = rootRoute.addChildren([indexRoute])
 
 export const router = createRouter({
   routeTree,
+  basepath: import.meta.env.BASE_URL.replace(/\/$/, '') || '/',
   defaultPreload: 'intent',
   scrollRestoration: true,
 })
