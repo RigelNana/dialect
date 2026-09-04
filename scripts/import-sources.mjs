@@ -11,7 +11,7 @@ const ziToolsBaseUrl = 'https://zi.tools'
 const outputDirectory = resolve(projectRoot, 'public/data/layers')
 const requestDelayMs = 500
 const sourceRetryLimit = 3
-const batchSize = 128
+const batchSize = 96
 
 const dialectBooks = ['beijing', 'jinan', 'shanghai', 'suzhou', 'guangzhou', 'xiamen', 'fuzhou']
 const japaneseLayerByLabel = {
@@ -45,6 +45,14 @@ const ziToolsBatchSchema = z.object({
   rows: z.record(z.string(), sourceRowSchema),
   zibokrows: z.record(z.string(), z.record(z.string(), z.array(z.string()))),
 })
+const bookCatalogSchema = z.object({
+  map: z.record(z.string(), z.object({
+    id: z.string(),
+    name: z.string(),
+    dir: z.string(),
+    sub_dir: z.string(),
+  })),
+})
 
 const qieyunData = JSON.parse(await readFile(resolve(projectRoot, 'public/data/qieyun.json'), 'utf8'))
 const representativeCharacters = Array.from(new Set(qieyunData.slots.map((slot) => slot.representativeCharacter)))
@@ -57,6 +65,28 @@ const dialectReadings = {}
 const japaneseReadings = {}
 const importWarnings = []
 let issuedRequests = 0
+issuedRequests += 1
+const catalogResponse = await fetch(`${ziToolsBaseUrl}/api/yin/bok`, {
+  headers: { 'User-Agent': 'RigelNana/dialect source importer; related-point discovery' },
+})
+if (!catalogResponse.ok) throw new Error(`zi.tools 方言目录加载失败：HTTP ${catalogResponse.status}`)
+const bookCatalog = bookCatalogSchema.parse(await catalogResponse.json()).map
+const relatedBooksBySeed = Object.fromEntries(dialectBooks.map((seedBook) => {
+  const seed = bookCatalog[seedBook]
+  if (!seed) throw new Error(`zi.tools 方言目录缺少 ${seedBook}`)
+  const signature = seed.sub_dir.split(/\s+/u)[0]
+  const relatedBooks = [
+    seedBook,
+    ...Object.values(bookCatalog)
+      .filter((book) =>
+        book.id !== seedBook &&
+        (book.sub_dir === signature || book.sub_dir.startsWith(`${signature} `)))
+      .map((book) => book.id),
+  ]
+  return [seedBook, relatedBooks]
+}))
+const dialectBookIds = Array.from(new Set(Object.values(relatedBooksBySeed).flat()))
+
 
 function readingLayerFromNote(note) {
   if (note.includes('白')) return '白读'
@@ -64,9 +94,9 @@ function readingLayerFromNote(note) {
   if (note.includes('又')) return '特殊读'
   return '常读'
 }
-
-function targetLayers(bookKey, readingLayer) {
-  if (bookKey !== 'xiamen') return [bookKey]
+function targetLayers(seedBook, readingLayer) {
+  if (!seedBook) return []
+  if (seedBook !== 'xiamen') return [seedBook]
   if (readingLayer === '文读') return ['xiamen-literary']
   if (readingLayer === '白读') return ['xiamen-colloquial']
   return ['xiamen-literary', 'xiamen-colloquial']
@@ -86,7 +116,7 @@ function storeDialectRecord(character, layerId, record) {
 }
 
 async function fetchZiToolsBatch(characters) {
-  const books = dialectBooks.join(',')
+  const books = dialectBookIds.join(',')
   const url = `${ziToolsBaseUrl}/api/yin/search/zi:${encodeURIComponent(characters.join(''))}/${books}`
   for (let attempt = 1; attempt <= sourceRetryLimit; attempt += 1) {
     try {
@@ -115,29 +145,42 @@ async function importDialectBatch(characters) {
 
   for (const character of characters) {
     const rowIdsByBook = data.zibokrows[character] ?? {}
-    for (const bookKey of dialectBooks) {
-      for (const rowId of rowIdsByBook[bookKey] ?? []) {
-        const row = data.rows[rowId]
-        if (!row?.syl) continue
-        const readingLayer = readingLayerFromNote(row.note ?? '')
-        const toneValue = row.ton ? data.entries[bookKey]?.ton?.[row.ton]?.ipa : undefined
-        const vowel = row.vow ? data.entries[bookKey]?.vow?.[row.vow] : undefined
-        const record = {
-          initial: row.con,
-          medial: vowel?.glide,
-          nucleus: vowel?.main,
-          coda: vowel?.coda,
-          ipa: row.syl.normalize('NFC'),
-          toneCategory: row.ton,
-          toneValue,
-          readingLayer,
-          note: row.note || undefined,
-          sourceCharacter: row.zi ?? character,
-          sourcePointId: row.id,
-          sourceLabel: `zi.tools · ${(data.boks[bookKey] ?? [bookKey]).join(' · ')}`,
-          sourceUrl: `${ziToolsBaseUrl}/zi/${encodeURIComponent(character)}`,
+    for (const seedBook of dialectBooks) {
+      const candidatesByLayer = new Map()
+      for (const bookKey of relatedBooksBySeed[seedBook]) {
+        for (const rowId of rowIdsByBook[bookKey] ?? []) {
+          const row = data.rows[rowId]
+          if (!row?.syl) continue
+          const readingLayer = readingLayerFromNote(row.note ?? '')
+          const toneValue = row.ton ? data.entries[bookKey]?.ton?.[row.ton]?.ipa : undefined
+          const vowel = row.vow ? data.entries[bookKey]?.vow?.[row.vow] : undefined
+          const record = {
+            initial: row.con,
+            medial: vowel?.glide,
+            nucleus: vowel?.main,
+            coda: vowel?.coda,
+            ipa: row.syl.normalize('NFC'),
+            toneCategory: row.ton,
+            toneValue,
+            readingLayer,
+            note: row.note || undefined,
+            sourceCharacter: row.zi ?? character,
+            sourcePointId: row.id,
+            sourceLabel: `zi.tools · ${(data.boks[bookKey] ?? [bookKey]).join(' · ')}`,
+            sourceUrl: `${ziToolsBaseUrl}/zi/${encodeURIComponent(character)}`,
+          }
+          for (const layerId of targetLayers(seedBook, readingLayer)) {
+            const candidates = candidatesByLayer.get(layerId) ?? []
+            candidates.push({ bookKey, record })
+            candidatesByLayer.set(layerId, candidates)
+          }
         }
-        for (const layerId of targetLayers(bookKey, readingLayer)) storeDialectRecord(character, layerId, record)
+      }
+      for (const [layerId, candidates] of candidatesByLayer) {
+        const direct = candidates.filter((candidate) => candidate.bookKey === seedBook)
+        for (const candidate of direct.length > 0 ? direct : candidates) {
+          storeDialectRecord(character, layerId, candidate.record)
+        }
       }
     }
   }
@@ -222,6 +265,7 @@ const metadata = {
   importedJapaneseRecords: japaneseRecordCount,
   requestDelayMs,
   batchSize,
+  relatedBooksBySeed,
   siteWarning: 'zi.tools 汇集多种音韵与方言资料，使用时须回查其来源列表和原始文献。',
   japaneseSourceNote: '古音小镜标注日本吴音、汉音、唐音来源为《漢字源》第五版，字表分享者为王赟（Maigo）。',
   rightsNote: '古音小镜原创内容声明采用 CC BY 4.0，但日语记录来自第三方材料；zi.tools 未见明确批量再发布许可。所有快照均保留来源，公开再利用前仍须核查原始来源及权利。',

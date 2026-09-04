@@ -259,7 +259,7 @@ export function SlotDetail({ slot, row, initial, qieyunMetadata, activeLayer, ac
                       {reflex.sandhiCondition && <small>{reflex.sandhiCondition}</small>}
                       {reflex.sourceUrl && (
                         <a className="source-link" href={reflex.sourceUrl} target="_blank" rel="noreferrer">
-                          来源 {reflex.sourcePointId}
+                          来源 {reflex.source ?? reflex.sourcePointId}
                         </a>
                       )}
                     </span>
@@ -353,7 +353,7 @@ export function SlotDetail({ slot, row, initial, qieyunMetadata, activeLayer, ac
                 <strong>{activeReflex.source}</strong>
                 <small>{activeReflex.sourceNote ?? '来源记录未附注'}</small>
                 <a href={activeReflex.sourceUrl} target="_blank" rel="noreferrer">
-                  查看原始语言点 {activeReflex.sourcePointId}
+                  查看原始记录：{activeReflex.source ?? activeReflex.sourcePointId}
                 </a>
               </div>
             )}
@@ -377,7 +377,7 @@ export function SlotDetail({ slot, row, initial, qieyunMetadata, activeLayer, ac
           </a>
         ) : activeReflex?.sourceUrl ? (
           <a href={activeReflex.sourceUrl} target="_blank" rel="noreferrer">
-            {activeReflex.sourcePointId}
+            {activeReflex.source ?? activeReflex.sourcePointId}
           </a>
         ) : (
           <strong>来源未收</strong>
