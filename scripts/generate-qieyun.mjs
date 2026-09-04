@@ -8,7 +8,7 @@ import { pinyin } from 'pinyin-pro'
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const tshetUinhPackage = JSON.parse(await readFile(resolve(projectRoot, 'node_modules/tshet-uinh/package.json'), 'utf8'))
 const examplesPackage = JSON.parse(await readFile(resolve(projectRoot, 'node_modules/tshet-uinh-examples/package.json'), 'utf8'))
-const outputPath = resolve(projectRoot, 'src/data/qieyun.json')
+const outputPath = resolve(projectRoot, 'public/data/qieyun.json')
 const reconstruct = panwuyun({
   版本: '2023：漢語古音手冊',
   聲調記號: '隱藏',
@@ -112,5 +112,5 @@ const payload = {
 }
 
 await mkdir(dirname(outputPath), { recursive: true })
-await writeFile(outputPath, `${JSON.stringify(payload, null, 2)}\n`, 'utf8')
+await writeFile(outputPath, `${JSON.stringify(payload)}\n`, 'utf8')
 console.log(`写入 ${slots.length} 个音韵地位、${rowsByKey.size} 行、${initials.length} 声母：${outputPath}`)

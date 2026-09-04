@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
+import type { Initial, MatrixRow, PhonologySlot } from './domain'
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate, useSearch } from '@tanstack/react-router'
 import {
@@ -8,16 +9,12 @@ import {
   Rows,
   SquaresFour,
 } from '@phosphor-icons/react'
-import { fetchLayerData, findSlot, kaomMetadata, layers, qieyunMetadata, rows, slotById, slots } from './data'
+import { fetchLayerData, fetchQieyunData, findSlot, layers } from './data'
 import { PhonologyMatrix } from './components/PhonologyMatrix'
 import { FilterMenu } from './components/FilterMenu'
 import { SlotDetail } from './components/SlotDetail'
 import { useInterfaceStore } from './store'
 
-const rhymeGroupOptions = [
-  { value: 'all', label: '全部' },
-  ...Array.from(new Map(rows.map((row) => [row.rhymeGroupId, row.she])).entries(), ([value, label]) => ({ value, label })),
-]
 const toneOptions = [
   { value: 'all', label: '全部' },
   { value: 'level', label: '平' },
@@ -32,6 +29,9 @@ const toneLabels: Record<string, string | undefined> = {
   departing: '去',
   entering: '入',
 }
+const emptyInitials: Initial[] = []
+const emptyRows: MatrixRow[] = []
+const emptySlots: PhonologySlot[] = []
 const layerGroups = ['骨架', '官话', '吴语', '粤语', '闽语', '日语']
 
 export function App() {
@@ -46,23 +46,41 @@ export function App() {
   const setDetailTab = useInterfaceStore((state) => state.setDetailTab)
   const setCellDensity = useInterfaceStore((state) => state.setCellDensity)
   const activeLayer = layers.find((layer) => layer.id === search.layer) ?? layers[0]
-  const selectedSlot = slotById[selectedSlotId] ?? slots[0]
 
+  const qieyunQuery = useQuery({
+    queryKey: ['qieyun'],
+    queryFn: fetchQieyunData,
+    staleTime: Number.POSITIVE_INFINITY,
+  })
   const layerQuery = useQuery({
     queryKey: ['reflex-layer', activeLayer.id],
-    queryFn: ({ signal }) => fetchLayerData(activeLayer.id, signal),
+    queryFn: () => fetchLayerData(activeLayer.id),
+    staleTime: Number.POSITIVE_INFINITY,
   })
-  const activeRecordCount = layerQuery.data
-    ? Object.values(layerQuery.data.reflexes).reduce((total, records) => total + records.length, 0)
-    : 0
 
+  const initials = qieyunQuery.data?.initials ?? emptyInitials
+  const rows = qieyunQuery.data?.rows ?? emptyRows
+  const slots = qieyunQuery.data?.slots ?? emptySlots
+  const slotById = useMemo(() => Object.fromEntries(slots.map((slot) => [slot.id, slot])), [slots])
+  const rowById = useMemo(() => Object.fromEntries(rows.map((row) => [row.id, row])), [rows])
+  const initialById = useMemo(() => Object.fromEntries(initials.map((initial) => [initial.id, initial])), [initials])
+  const selectedSlot = slotById[selectedSlotId] ?? slots[0]
+  const selectedRow = selectedSlot ? rowById[selectedSlot.rowId] : undefined
+  const selectedInitial = selectedSlot ? initialById[selectedSlot.initialId] : undefined
+  const rhymeGroupOptions = useMemo(() => [
+    { value: 'all', label: '全部' },
+    ...Array.from(new Map(rows.map((row) => [row.rhymeGroupId, row.she])).entries(), ([value, label]) => ({ value, label })),
+  ], [rows])
   const visibleRows = useMemo(() => rows.filter((row) => {
     const selectedRhymeGroup = search.rhymeGroup === 'all' ? undefined : search.rhymeGroup
     const selectedTone = toneLabels[search.tone]
     const matchesRhymeGroup = !selectedRhymeGroup || row.rhymeGroupId === selectedRhymeGroup
     const matchesTone = !selectedTone || row.tone === selectedTone
     return matchesRhymeGroup && matchesTone
-  }), [search.rhymeGroup, search.tone])
+  }), [rows, search.rhymeGroup, search.tone])
+  const activeRecordCount = layerQuery.data
+    ? Object.values(layerQuery.data.reflexes).reduce((total, records) => total + records.length, 0)
+    : 0
 
   const updateSearch = (next: Partial<typeof search>) => {
     navigate({
@@ -74,9 +92,9 @@ export function App() {
 
   const submitSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const match = findSlot(queryText)
+    const match = findSlot(queryText, slots)
     if (!match) {
-      setSearchMessage(queryText.trim() ? `未找到“${queryText.trim()}”对应的格位` : '请输入字、格位 ID 或拟音')
+      setSearchMessage(slots.length === 0 ? '音韵数据仍在载入' : queryText.trim() ? `未找到“${queryText.trim()}”对应的格位` : '请输入字、格位 ID 或拟音')
       return
     }
     setSelectedSlot(match.id)
@@ -90,13 +108,14 @@ export function App() {
         <span>SOURCED DATA</span>
         <strong>
           {activeLayer.kind === 'middle-chinese'
-            ? `《廣韻》格位据 TshetUinh.js；拟音为潘悟云 2023`
+            ? '《廣韻》格位据 TshetUinh.js；拟音为潘悟云 2023'
             : activeLayer.kind === 'dialect'
-              ? '方言读音据古音小镜与 zi.tools；原始记录保留来源'
+              ? '方言读音据 zi.tools 批量结构化接口；原始记录保留来源'
               : '吴音、汉音、唐音据古音小镜；原站标注来源《漢字源》第五版'}
         </strong>
-        <span>{activeLayer.kind === 'middle-chinese' ? `QY ${qieyunMetadata.positions}` : `REFLEX ${kaomMetadata.importedRecords}`}</span>
+        <span>{activeLayer.kind === 'middle-chinese' ? `QY ${qieyunQuery.data?.metadata.positions ?? '…'}` : `LAYER ${activeRecordCount}`}</span>
       </div>
+
       <header className="app-header">
         <div className="brand-lockup" aria-label="音格 中古音韵反射矩阵">
           <div className="brand-mark"><span>音</span><span>格</span></div>
@@ -121,7 +140,9 @@ export function App() {
           <button
             type="button"
             className="header-action"
+            disabled={!selectedSlot}
             onClick={() => {
+              if (!selectedSlot) return
               setDetailTab('reflexes')
               setSelectedSlot(selectedSlot.id)
             }}
@@ -209,15 +230,22 @@ export function App() {
 
       <div className="research-surface">
         <section className="matrix-panel" aria-label="音韵矩阵工作区">
-          {layerQuery.isError ? (
+          {qieyunQuery.isError || layerQuery.isError ? (
             <div className="matrix-error" role="alert">
-              <strong>反射层读取失败</strong>
-              <span>保留当前格位坐标，请重新载入这一层。</span>
-              <button type="button" onClick={() => layerQuery.refetch()}>重新载入</button>
+              <strong>音韵数据读取失败</strong>
+              <span>请检查 public/data 下的生成数据。</span>
+              <button type="button" onClick={() => Promise.all([qieyunQuery.refetch(), layerQuery.refetch()])}>重新载入</button>
+            </div>
+          ) : qieyunQuery.isPending || !selectedSlot ? (
+            <div className="matrix-loading" aria-live="polite">
+              <strong>正在读取完整《广韵》矩阵</strong>
+              <span>数据与应用代码分开加载</span>
             </div>
           ) : (
             <PhonologyMatrix
               rows={visibleRows}
+              initials={initials}
+              slots={slots}
               layer={activeLayer}
               payload={layerQuery.data}
               selectedSlotId={selectedSlot.id}
@@ -234,12 +262,17 @@ export function App() {
           </div>
         </section>
 
-        <SlotDetail
-          slot={selectedSlot}
-          activeLayer={activeLayer}
-          activePayload={layerQuery.data}
-          open={detailOpen}
-        />
+        {selectedSlot && selectedRow && selectedInitial && qieyunQuery.data && (
+          <SlotDetail
+            slot={selectedSlot}
+            row={selectedRow}
+            initial={selectedInitial}
+            qieyunMetadata={qieyunQuery.data.metadata}
+            activeLayer={activeLayer}
+            activePayload={layerQuery.data}
+            open={detailOpen}
+          />
+        )}
       </div>
     </main>
   )

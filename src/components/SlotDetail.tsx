@@ -8,13 +8,17 @@ import {
   MapPinLine,
   X,
 } from '@phosphor-icons/react'
-import type { Layer, LayerPayload, PhonologySlot } from '../domain'
-import { fetchLayerData, initialById, kaomMetadata, layers, qieyunMetadata, rowById } from '../data'
+import type { Initial, Layer, LayerPayload, MatrixRow, PhonologySlot } from '../domain'
+import { fetchLayerData, layers } from '../data'
+import type { QieyunMetadata } from '../data'
 import { useInterfaceStore, type DetailTab } from '../store'
 import { ToneContour } from './ToneContour'
 
 interface SlotDetailProps {
   slot: PhonologySlot
+  row: MatrixRow
+  initial: Initial
+  qieyunMetadata: QieyunMetadata
   activeLayer: Layer
   activePayload?: LayerPayload
   open: boolean
@@ -27,7 +31,7 @@ const detailTabs: Array<{ id: DetailTab; label: string }> = [
   { id: 'development', label: '演变链' },
 ]
 
-export function SlotDetail({ slot, activeLayer, activePayload, open }: SlotDetailProps) {
+export function SlotDetail({ slot, row, initial, qieyunMetadata, activeLayer, activePayload, open }: SlotDetailProps) {
   const closeDetail = useInterfaceStore((state) => state.closeDetail)
   const detailTab = useInterfaceStore((state) => state.detailTab)
   const setDetailTab = useInterfaceStore((state) => state.setDetailTab)
@@ -35,15 +39,14 @@ export function SlotDetail({ slot, activeLayer, activePayload, open }: SlotDetai
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const previousFocusRef = useRef<HTMLElement | null>(null)
   const wasOpenRef = useRef(false)
-  const row = rowById[slot.rowId]
-  const initial = initialById[slot.initialId]
   const activeReflexes = activePayload?.reflexes[slot.id] ?? []
   const activeReflex = activeReflexes[0]
   const layerQueries = useQueries({
     queries: comparisonLayerIds.map((layerId) => ({
       queryKey: ['reflex-layer', layerId],
-      queryFn: ({ signal }: { signal: AbortSignal }) => fetchLayerData(layerId, signal),
-      staleTime: 1000 * 60 * 20,
+      queryFn: () => fetchLayerData(layerId),
+      staleTime: Number.POSITIVE_INFINITY,
+      enabled: open && detailTab === 'reflexes',
     })),
   })
 
@@ -335,7 +338,7 @@ export function SlotDetail({ slot, activeLayer, activePayload, open }: SlotDetai
               <div className="source-record">
                 <span>资料来源</span>
                 <strong>{activeReflex.source}</strong>
-                <small>{activeReflex.sourceNote ?? kaomMetadata.siteWarning}</small>
+                <small>{activeReflex.sourceNote ?? '来源记录未附注'}</small>
                 <a href={activeReflex.sourceUrl} target="_blank" rel="noreferrer">
                   查看原始语言点 {activeReflex.sourcePointId}
                 </a>
@@ -359,10 +362,12 @@ export function SlotDetail({ slot, activeLayer, activePayload, open }: SlotDetai
           <a href={qieyunMetadata.sourceUrl} target="_blank" rel="noreferrer">
             《广韵》· TshetUinh.js {qieyunMetadata.sourceVersion}
           </a>
-        ) : (
-          <a href={activeReflex?.sourceUrl ?? kaomMetadata.sourceUrl} target="_blank" rel="noreferrer">
-            {activeReflex?.sourcePointId ?? '来源未收'}
+        ) : activeReflex?.sourceUrl ? (
+          <a href={activeReflex.sourceUrl} target="_blank" rel="noreferrer">
+            {activeReflex.sourcePointId}
           </a>
+        ) : (
+          <strong>来源未收</strong>
         )}
       </footer>
       </aside>

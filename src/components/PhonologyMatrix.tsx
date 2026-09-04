@@ -1,11 +1,12 @@
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { useVirtualizer } from '@tanstack/react-virtual'
-import type { Layer, LayerPayload, MatrixRow, PhonologySlot } from '../domain'
-import { initials, slots } from '../data'
+import type { Initial, Layer, LayerPayload, MatrixRow, PhonologySlot } from '../domain'
 import { PhonologyCell } from './PhonologyCell'
 
 interface PhonologyMatrixProps {
   rows: MatrixRow[]
+  initials: Initial[]
+  slots: PhonologySlot[]
   layer: Layer
   payload?: LayerPayload
   selectedSlotId: string
@@ -16,15 +17,17 @@ interface PhonologyMatrixProps {
 
 const DEFAULT_LEADING_WIDTH = 254
 const INITIAL_WIDTH = 110
-const DATA_WIDTH = initials.length * INITIAL_WIDTH
-const GRID_WIDTH = `calc(var(--leading-width) + ${DATA_WIDTH}px)`
-const GRID_TEMPLATE = `var(--col-she) var(--col-rhyme) var(--col-grade) var(--col-open) var(--col-tone) repeat(${initials.length}, ${INITIAL_WIDTH}px)`
-const slotsByCoordinate: Record<string, PhonologySlot> = Object.fromEntries(
-  slots.map((slot) => [`${slot.rowId}:${slot.initialId}`, slot]),
-)
 
-export function PhonologyMatrix({ rows: visibleRows, layer, payload, selectedSlotId, compact, loading, onSelect }: PhonologyMatrixProps) {
+
+export function PhonologyMatrix({ rows: visibleRows, initials, slots, layer, payload, selectedSlotId, compact, loading, onSelect }: PhonologyMatrixProps) {
   const scrollerRef = useRef<HTMLDivElement>(null)
+  const dataWidth = initials.length * INITIAL_WIDTH
+  const gridWidth = `calc(var(--leading-width) + ${dataWidth}px)`
+  const gridTemplate = `var(--col-she) var(--col-rhyme) var(--col-grade) var(--col-open) var(--col-tone) repeat(${initials.length}, ${INITIAL_WIDTH}px)`
+  const slotsByCoordinate = useMemo<Record<string, PhonologySlot>>(
+    () => Object.fromEntries(slots.map((slot) => [`${slot.rowId}:${slot.initialId}`, slot])),
+    [slots],
+  )
   const rowHeight = compact ? 58 : 76
   const rowVirtualizer = useVirtualizer({
     count: visibleRows.length,
@@ -40,7 +43,7 @@ export function PhonologyMatrix({ rows: visibleRows, layer, payload, selectedSlo
       rowIndex: selected ? visibleRows.findIndex((row) => row.id === selected.rowId) : -1,
       initialIndex: selected ? initials.findIndex((initial) => initial.id === selected.initialId) : -1,
     }
-  }, [selectedSlotId, visibleRows])
+  }, [initials, selectedSlotId, slots, visibleRows])
 
   useEffect(() => {
     if (selectedPosition.rowIndex >= 0) {
@@ -85,8 +88,8 @@ export function PhonologyMatrix({ rows: visibleRows, layer, payload, selectedSlo
       aria-rowcount={visibleRows.length + 2}
       aria-colcount={initials.length + 5}
     >
-      <div className="matrix-stage" style={{ width: GRID_WIDTH, height: rowVirtualizer.getTotalSize() + 94 }}>
-        <div className="matrix-superheader" style={{ gridTemplateColumns: `var(--leading-width) ${DATA_WIDTH}px` }}>
+      <div className="matrix-stage" style={{ width: gridWidth, height: rowVirtualizer.getTotalSize() + 94 }}>
+        <div className="matrix-superheader" style={{ gridTemplateColumns: `var(--leading-width) ${dataWidth}px` }}>
           <div className="axis-corner">韵类条件</div>
           <div className="axis-title">
             <span>中古声母</span>
@@ -95,7 +98,7 @@ export function PhonologyMatrix({ rows: visibleRows, layer, payload, selectedSlo
           </div>
         </div>
 
-        <div className="matrix-header" role="row" style={{ gridTemplateColumns: GRID_TEMPLATE }}>
+        <div className="matrix-header" role="row" style={{ gridTemplateColumns: gridTemplate }}>
           {['摄', '韵', '等', '呼', '调'].map((label, index) => (
             <div
               key={label}
@@ -127,7 +130,7 @@ export function PhonologyMatrix({ rows: visibleRows, layer, payload, selectedSlo
                 aria-rowindex={virtualRow.index + 3}
                 className={`matrix-row${startsShe ? ' starts-she' : ''}`}
                 style={{
-                  gridTemplateColumns: GRID_TEMPLATE,
+                  gridTemplateColumns: gridTemplate,
                   height: rowHeight,
                   transform: `translateY(${virtualRow.start}px)`,
                 }}

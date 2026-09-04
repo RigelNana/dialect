@@ -451,7 +451,7 @@
   .legend-filled { background: white; }
   .legend-empty { background: #f2f3f0; }
   .matrix-position { margin-left: auto; font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; letter-spacing: .03em; }
-  .matrix-empty, .matrix-error {
+  .matrix-empty, .matrix-error, .matrix-loading {
     height: 100%;
     display: grid;
     place-content: center;
@@ -460,8 +460,8 @@
     color: var(--ink-3);
     text-align: center;
   }
-  .matrix-empty strong, .matrix-error strong { color: var(--ink); font-size: 15px; }
-  .matrix-empty span, .matrix-error span { font-size: 12px; }
+  .matrix-empty strong, .matrix-error strong, .matrix-loading strong { color: var(--ink); font-size: 15px; }
+  .matrix-empty span, .matrix-error span, .matrix-loading span { font-size: 12px; }
   .matrix-error button { margin-top: 7px; padding: 7px 12px; border: 1px solid var(--accent); border-radius: 3px; color: white; background: var(--accent); font-size: 11px; }
 
   .detail-modal {
