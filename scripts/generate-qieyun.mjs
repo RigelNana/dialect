@@ -23,6 +23,17 @@ const positions = Array.from(TshetUinh.資料.iter音韻地位())
 const positionsByInitial = new Map()
 const rowsByKey = new Map()
 const slots = []
+const sheOrder = new Map()
+const rhymeOrder = new Map()
+for (const position of positions) {
+  if (!sheOrder.has(position.攝)) sheOrder.set(position.攝, sheOrder.size)
+  const rhymeKey = `${position.攝}\u0000${position.韻}`
+  if (!rhymeOrder.has(rhymeKey)) rhymeOrder.set(rhymeKey, rhymeOrder.size)
+}
+const gradeOrder = new Map(['一', '二', '三', '四'].map((value, index) => [value, index]))
+const opennessOrder = new Map(['中立', '開', '合'].map((value, index) => [value, index]))
+const toneOrder = new Map(['平', '上', '去', '入'].map((value, index) => [value, index]))
+const rhymeClassOrder = new Map(['', 'A', 'B', 'C'].map((value, index) => [value, index]))
 
 function commonPrefix(values) {
   if (values.length === 0) return ''
@@ -146,6 +157,17 @@ const initials = Array.from(positionsByInitial, ([label, items]) => {
     aspiration: initialReconstruction.includes('ʰ') ? '送氣' : sample.清濁.includes('濁') ? '濁音' : '不送氣',
   }
 })
+const sortedRows = Array.from(rowsByKey.values()).sort((left, right) => {
+  const ranks = [
+    (sheOrder.get(left.she) ?? Number.MAX_SAFE_INTEGER) - (sheOrder.get(right.she) ?? Number.MAX_SAFE_INTEGER),
+    (rhymeOrder.get(`${left.she}\u0000${left.rhyme}`) ?? Number.MAX_SAFE_INTEGER) - (rhymeOrder.get(`${right.she}\u0000${right.rhyme}`) ?? Number.MAX_SAFE_INTEGER),
+    (gradeOrder.get(left.grade) ?? Number.MAX_SAFE_INTEGER) - (gradeOrder.get(right.grade) ?? Number.MAX_SAFE_INTEGER),
+    (opennessOrder.get(left.openness) ?? Number.MAX_SAFE_INTEGER) - (opennessOrder.get(right.openness) ?? Number.MAX_SAFE_INTEGER),
+    (toneOrder.get(left.tone) ?? Number.MAX_SAFE_INTEGER) - (toneOrder.get(right.tone) ?? Number.MAX_SAFE_INTEGER),
+    (rhymeClassOrder.get(left.rhymeClass ?? '') ?? Number.MAX_SAFE_INTEGER) - (rhymeClassOrder.get(right.rhymeClass ?? '') ?? Number.MAX_SAFE_INTEGER),
+  ]
+  return ranks.find((rank) => rank !== 0) ?? 0
+})
 const payload = {
   metadata: {
     sourceName: 'TshetUinh.js',
@@ -162,7 +184,7 @@ const payload = {
     initials: initials.length,
   },
   initials,
-  rows: Array.from(rowsByKey.values()),
+  rows: sortedRows,
   slots,
 }
 
