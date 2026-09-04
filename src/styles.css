@@ -420,8 +420,8 @@
   .phonology-cell.is-compact .cell-character { font-size: 15px; }
   .phonology-cell.is-compact .cell-reading { font-size: 11px; }
   .phonology-cell.is-compact .cell-meta { font-size: 8px; }
-  .matrix-void { border-right: 1px solid var(--rule); background: #f2f3f0; }
-  .matrix-void::after { content: ""; display: block; width: 13px; height: 1px; margin: 50% auto 0; background: #d6d9d5; }
+  .matrix-void { display: grid; place-items: center; border-right: 1px solid var(--rule); color: var(--ink-3); background: #f2f3f0; font-size: 8px; }
+  .matrix-void span { opacity: .72; }
 
   .cell-skeleton { display: flex; flex-direction: column; justify-content: center; gap: 6px; padding: 8px; border-right: 1px solid var(--rule); background: #f6f7f4; }
   .cell-skeleton span { display: block; height: 6px; background: #e0e4e1; animation: registration-pulse 900ms steps(2, end) infinite; }

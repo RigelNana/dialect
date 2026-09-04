@@ -147,7 +147,7 @@ export function PhonologyMatrix({ rows: visibleRows, layer, payload, selectedSlo
                 {initials.map((initial) => {
                   const slot = slotsByCoordinate[`${row.id}:${initial.id}`]
                   if (!slot) {
-                    return <div key={initial.id} role="gridcell" className="matrix-void" aria-label={`${initial.label}母，此行无音韵地位`} />
+                    return <div key={initial.id} role="gridcell" className="matrix-void" aria-label={`${initial.label}母，此行无音韵地位`}><span>无地位</span></div>
                   }
                   return loading ? (
                     <div key={initial.id} role="gridcell" className="cell-skeleton" aria-label="正在套印反射数据">

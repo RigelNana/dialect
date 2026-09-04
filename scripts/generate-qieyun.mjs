@@ -49,6 +49,7 @@ for (const position of positions) {
   const reconstruction = reconstruct(position)
   positionsByInitial.set(position.母, [...(positionsByInitial.get(position.母) ?? []), { position, reconstruction }])
   const characters = Array.from(new Set(entries.map((entry) => entry.字頭)))
+  const representativeCharacter = characters.find((character) => character.length === 1) ?? characters[0]
   const fanqie = Array.from(new Set(entries.map((entry) => entry.反切).filter(Boolean)))
   const sourceIds = Array.from(new Set(entries.map((entry) => entry.來源.小韻號)))
   const code = TshetUinh.壓縮表示.encode音韻編碼(position)
@@ -59,7 +60,7 @@ for (const position of positions) {
     qieyunCode: code,
     rowId: row.id,
     initialId: `initial-${position.母}`,
-    representativeCharacter: characters[0],
+    representativeCharacter,
     characters,
     reconstruction: {
       system: '潘悟雲 2023（tshet-uinh-examples）',

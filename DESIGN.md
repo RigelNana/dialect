@@ -221,7 +221,7 @@ Borders are structural rather than ornamental: regular rules divide cells, stron
 ### Matrix and Phonology Cells
 - The matrix uses semantic grid, row, rowheader, columnheader, and gridcell roles with explicit row/column counts. Sticky nested row coordinates and column initials preserve orientation during scrolling.
 - A comfortable cell is 76px high with 7px 8px 6px padding; compact mode is 58px high with 5px 7px padding. Each cell aligns a serif representative character, mono slot ID, reading/IPA line, and compact metadata.
-- Hover-capable pointers use mineral wash; touch does not retain hover color. Selection uses a neutral paper fill, ink registration corner, `aria-selected`, no box shadow, and transparent browser tap highlight. Empty reflex cells say “未收” in dedicated missing-state ink; impossible coordinates use a ruled void with a dash. Alternate readings get a small count badge.
+- Hover-capable pointers use mineral wash; touch does not retain hover color. Selection uses a neutral paper fill, ink registration corner, `aria-selected`, no box shadow, and transparent browser tap highlight. Every valid slot has a library-selected representative character, preferring a BMP member when available for broader font coverage. Invalid initial/rhyme intersections say “无地位” rather than looking like missing character data.
 - Loading replaces cell content with three stepped-pulse registration bars. The matrix has explicit, centered empty and error states; the error action is the only filled retry button.
 
 ### Detail Modal and Tabs
